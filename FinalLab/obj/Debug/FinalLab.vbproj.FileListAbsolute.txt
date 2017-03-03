@@ -1,0 +1,2 @@
+S:\my documents\Visual Studio 2015\Projects\FinalLab\FinalLab\bin\Debug\FinalLab.exe.config
+D:\Desktop\FinalLab\FinalLab\bin\Debug\FinalLab.exe.config
