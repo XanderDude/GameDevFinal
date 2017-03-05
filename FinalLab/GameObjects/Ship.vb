@@ -41,4 +41,12 @@
         ' Delete the ship
         Delete()
     End Sub
+
+    Public Overrides Sub Update()
+        Throw New NotImplementedException
+    End Sub
+
+    Public Overrides Function Collide(testObject As IGameObject) As Boolean
+        Throw New NotImplementedException
+    End Function
 End Class

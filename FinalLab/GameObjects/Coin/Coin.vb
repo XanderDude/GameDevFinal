@@ -5,13 +5,13 @@
     Public ReadOnly CoinType As CoinType = CoinType.Unknown
 
     Private _animatedSprite As AnimatedSprite
-    Public Sub New()
-        game = Game.GetGame()
+    Public Sub New(game As Game)
+        me.game = game
     End Sub
 
     Public Overrides Sub Update()
         If (Me.Collide(game.PlayerShip)) Then
-            game.intMoney += CoinType.Value
+            game.Money += CoinType.Value
             Me.Delete()
         End If
     End Sub
@@ -21,4 +21,8 @@
 
         _animatedSprite.ChangeSprite(coinType.SpriteName)
     End Sub
+
+    Public Overrides Function Collide(testObject As IGameObject) As Boolean
+        Throw New NotImplementedException
+    End Function
 End Class

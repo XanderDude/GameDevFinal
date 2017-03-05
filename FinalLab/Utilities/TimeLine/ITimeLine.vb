@@ -21,8 +21,8 @@
         End Set
     End Property
 
-    Sub New()
-        _game = Game.GetGame()
+    Sub New(game As Game)
+        Me._game =game
     End Sub
 
     Sub New(game As Game, events As IEnumerable(Of TimeLineEvent))

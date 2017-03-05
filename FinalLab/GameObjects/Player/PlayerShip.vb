@@ -1,14 +1,13 @@
 ﻿Public Class PlayerShip
     Inherits Ship
-    Private Dim game as game
+    Private Dim game as Game
     
     Private keyboard As Keyboard = Nothing
     Private mouse As Mouse = Nothing
 
-    Sub New()
+    Sub New(game as Game)
         MyBase.New(1000, 1000)
-
-        game = Game.GetGame()
+        me.game = game
 
         keyboard = game.Keyboard
         mouse = game.Mouse
