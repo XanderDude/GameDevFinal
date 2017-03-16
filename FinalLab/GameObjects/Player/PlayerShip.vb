@@ -1,23 +1,38 @@
 ﻿Public Class PlayerShip
     Inherits Ship
-    Private Dim game as Game
-    
-    Private keyboard As Keyboard = Nothing
-    Private mouse As Mouse = Nothing
+    Private gGame As Game
 
-    Sub New(game as Game)
-        MyBase.New(1000, 1000)
-        me.game = game
+    Dim dtLastShoot As DateTime
 
-        keyboard = game.Keyboard
-        mouse = game.Mouse
+    Sub New(gGame As Game)
+        MyBase.New(CType(gGame, Global.FinalLab.Game), CInt(1000), CInt(1000))
+        Me.gGame = gGame
+
+        Me.Position = New Vector2D(250, 500)
+        Me.Size = New Vector2D(32, 64)
+        Me.bmpSprite = New Bitmap("Images/player_ship.png")
+
+        dtLastShoot = Now()
     End Sub
 
     Public Overrides Sub Update()
-        
     End Sub
 
-    Public Overrides Function Collide(testObject As IGameObject) As Boolean
-        Throw New NotImplementedException
-    End Function
+    Public Sub AtemptShoot()
+        Dim tsTimePerShot As TimeSpan = TimeSpan.FromSeconds(0.25)
+
+        If (dtLastShoot + tsTimePerShot < Now()) Then
+            ForcecShoot()
+        End If
+    End Sub
+
+    Public Sub ForcecShoot()
+        dtLastShoot = DateTime.Now()
+
+        Dim vecBulletPosition = New Vector2D(Position.X, Position.Y)
+
+        vecBulletPosition.X += Size.X / 2
+
+        gGame.Spawn(New Bullet(gGame, Me, vecBulletPosition))
+    End Sub
 End Class

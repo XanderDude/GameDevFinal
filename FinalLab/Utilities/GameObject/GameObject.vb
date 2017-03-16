@@ -1,4 +1,6 @@
-﻿Public MustInherit Class GameObject
+﻿Imports FinalLab
+
+Public MustInherit Class GameObject
     Implements IGameObject
 
     Private _sprite As Sprite
@@ -48,9 +50,21 @@
         End Set
     End Property
 
+    Protected grabObjectBuffer As Graphics
+    Protected bmpSprite As Bitmap
+
     Public MustOverride Sub Update() Implements IGameObject.Update
 
-    Public MustOverride Function Collide(testObject As IGameObject) As Boolean Implements IGameObject.Collide
+    Public Function Collide(testObject As IGameObject) As Boolean Implements IGameObject.Collide
+        Return False
+    End Function
+
+    Public Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
+        Dim intDrawX As Integer = Math.Round(Position.X + (Size.X / 2.0F))
+        Dim intDrawY As Integer = Math.Round(Position.Y + (Size.Y / 2.0F))
+
+        grabBuffer.DrawImage(bmpSprite, intDrawX, intDrawY)
+    End Sub
 
     Public Sub Delete()
         DeleteMe = True

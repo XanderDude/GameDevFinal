@@ -17,6 +17,10 @@
         Me.Y = y
     End Sub
 
+    Public Function Clone() As Vector2D
+        Return New Vector2D(X, Y)
+    End Function
+
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me = obj
     End Function

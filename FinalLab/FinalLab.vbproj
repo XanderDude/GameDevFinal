@@ -13,6 +13,7 @@
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -87,6 +87,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmHowToPlay.Designer.vb">
+      <DependentUpon>frmHowToPlay.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmHowToPlay.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameObjects\Bolder.vb" />
     <Compile Include="frmFinalLab.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -108,9 +115,6 @@
     <Compile Include="GameObjects\Player\EPlayerControle.vb" />
     <Compile Include="GameObjects\Player\PlayerShip.vb" />
     <Compile Include="GameObjects\Ship.vb" />
-    <Compile Include="GuiItems\Button.vb" />
-    <Compile Include="GuiItems\GuiImage.vb" />
-    <Compile Include="GuiItems\GuiScoreBord.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -126,23 +130,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Utilities\Cursor\EMouseKey.vb" />
-    <Compile Include="Utilities\Cursor\Mouse.vb" />
-    <Compile Include="Utilities\DataManager.vb" />
     <Compile Include="Utilities\DataStructures\FloatSquare.vb" />
     <Compile Include="Utilities\DataStructures\intSquare.vb" />
     <Compile Include="Utilities\DataStructures\Point.vb" />
     <Compile Include="Utilities\DataStructures\Vector2D.vb" />
-    <Compile Include="Utilities\GameObject\EShape.vb" />
     <Compile Include="Utilities\GameObject\GameObject.vb" />
     <Compile Include="Utilities\GameObject\IGameObject.vb" />
-    <Compile Include="Utilities\Gui\Gui.vb" />
-    <Compile Include="Utilities\Gui\IGui.vb" />
-    <Compile Include="Utilities\HighscoreList\HighScoreList.vb" />
-    <Compile Include="Utilities\HighscoreList\Score.vb" />
-    <Compile Include="Utilities\Keybord\Keybord.vb" />
-    <Compile Include="Utilities\Keybord\EKeyboardKey.vb" />
-    <Compile Include="Utilities\Level.vb" />
     <Compile Include="Utilities\SoundEffect.vb" />
     <Compile Include="Utilities\Sprite\AnimatedSprite.vb" />
     <Compile Include="Utilities\Sprite\Sprite.vb" />
@@ -156,6 +149,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmFinalLab.resx">
       <DependentUpon>frmFinalLab.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHowToPlay.resx">
+      <DependentUpon>frmHowToPlay.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStory.resx">
       <DependentUpon>frmStory.vb</DependentUpon>
@@ -180,7 +176,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\" />
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -193,6 +205,45 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\bolder.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\bullet.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\enemy_ship.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\player_ship.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\rock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\Coin%28coins-1%29.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\CS161-FinalMenuLoop.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\CS161Final_GameLoop1.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\GUIButtonClicked.wav" />
+    <Content Include="Sound\PlayerDeath%28explosion6%29.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\PlayerShoot1%28gunfire1%29.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\RockDestroyed%28explosion8-chiptone%29.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\RockHit%28small-boom%29.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

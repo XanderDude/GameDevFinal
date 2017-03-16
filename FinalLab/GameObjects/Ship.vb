@@ -1,42 +1,38 @@
 ﻿Public Class Ship
     Inherits GameObject
 
-    Dim _maxHealth As Integer = -1
+    Dim _maxLives As Integer = -1
     Public ReadOnly Property MaxHealth As Integer
         Get
-            Return _maxHealth
+            Return _maxLives
         End Get
     End Property
 
-    Dim _health As Integer = -1
-    Public ReadOnly Property Health As Integer
+    Dim _lives As Integer = -1
+    Public ReadOnly Property Lives As Integer
         Get
-            Return _health
+            Return _lives
         End Get
     End Property
 
-    Sub New(health As Integer, maxHeath As Integer)
-        _maxHealth = maxHeath
-        _health = health
+    Protected gGame As Game
+
+    Sub New(gGame As Game, maxLives As Integer, lives As Integer)
+        Me.gGame = gGame
+        _maxLives = maxLives
+        _lives = lives
     End Sub
 
-    Public Sub Shoot(position As Vector2D)
-
-    End Sub
-
-    Public Sub Shoot(direction As Double)
-
-    End Sub
-
-    Friend Sub Damage(damage As Integer)
-        _health -= damage
-        If (_health < 0) Then
+    Friend Sub Damage(Optional lives As Integer = 1)
+        _lives -= lives
+        If (_lives < 0) Then
             Kill()
         End If
     End Sub
 
     Friend Sub Kill()
-        ' Todo: Spawn explosion object
+        'Spawn Explosion object
+        gGame.Spawn(New Explosion(gGame, Position.Clone()))
 
         ' Delete the ship
         Delete()
@@ -45,8 +41,4 @@
     Public Overrides Sub Update()
         Throw New NotImplementedException
     End Sub
-
-    Public Overrides Function Collide(testObject As IGameObject) As Boolean
-        Throw New NotImplementedException
-    End Function
 End Class

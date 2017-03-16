@@ -2,7 +2,12 @@
     Inherits GameObject
     Dim stopwatch As Stopwatch
 
-    Public Sub New()
+    Dim gGame As Game
+
+    Public Sub New(gGame As Game, vecPosition As Vector2D)
+        Me.gGame = gGame
+        Position = vecPosition
+
         stopwatch.Start()
     End Sub
 
@@ -11,13 +16,9 @@
         ' todo this
 
         ' Delete if the elapsed time is 2 seconds
-        If stopwatch.Elapsed > TimeSpan.FromSeconds(2D) Then
+        If stopwatch.Elapsed > TimeSpan.FromSeconds(2) Then
             stopwatch.Stop()
             Delete()
         End If
     End Sub
-
-    Public Overrides Function Collide(testObject As IGameObject) As Boolean
-        Throw New NotImplementedException
-    End Function
 End Class
