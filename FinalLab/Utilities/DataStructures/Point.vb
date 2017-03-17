@@ -1,8 +1,8 @@
 ﻿Imports FinalLab
 
 Public Class Point
-    Property X As Integer
-    Property Y As Integer
+    private intX As Integer
+    private intY As Integer
 
     Public Sub New()
         Me.X = 0
@@ -12,6 +12,23 @@ Public Class Point
         Me.X = x
         Me.Y = y
     End Sub
+    
+    Public Property X as Integer
+        get
+                return intX
+        End Get
+        set
+            intX = value
+        End Set
+    End Property
+    Public Property Y as Integer
+        get
+            return intY
+        End Get
+        set
+            intY = value
+        end set
+    End Property
 
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me = obj

@@ -2,52 +2,38 @@
 
 Public MustInherit Class GameObject
     Implements IGameObject
+    
+    Private vetPosition As Vector2D
+    Private boolDeleteMe As Boolean
+    Protected grabObjectBuffer As Graphics
+    Protected bmpSprite As Bitmap
 
-    Private ReadOnly Property Sprite As Bitmap Implements IGameObject.Sprite
-        Get
-            Return bmpSprite
-        End Get
-    End Property
-
-    Private _position As Vector2D
     Public Property Position As Vector2D Implements IGameObject.Position
         Get
-            Return _position
+            Return vetPosition
         End Get
         Protected Set(value As Vector2D)
-            _position = value
+            vetPosition = value
         End Set
     End Property
-
-    Private _size As Vector2D
     Public ReadOnly Property Size As Vector2D Implements IGameObject.Size
         Get
             Return New Vector2D(bmpSprite.Width, bmpSprite.Height)
         End Get
     End Property
-
-    Private _acell As Vector2D
-    Public Property Acell As Vector2D Implements IGameObject.Acell
+    Protected ReadOnly Property Sprite As Bitmap Implements IGameObject.Sprite
         Get
-            Return _acell
+            Return bmpSprite
         End Get
-        Protected Set(value As Vector2D)
-            _acell = value
-        End Set
     End Property
-
-    Private _deleteMe As Boolean
     Public Property DeleteMe As Boolean Implements IGameObject.DeleteMe
         Get
-            Return _deleteMe
+            Return boolDeleteMe
         End Get
         Protected Set(value As Boolean)
-            _deleteMe = value
+            boolDeleteMe = value
         End Set
     End Property
-
-    Protected grabObjectBuffer As Graphics
-    Protected bmpSprite As Bitmap
 
     Public MustOverride Sub Update() Implements IGameObject.Update
 
@@ -99,7 +85,7 @@ Public MustInherit Class GameObject
     End Function
 
     Public Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
-        grabBuffer.DrawImage(bmpSprite, CSng(Position.X), CSng(Position.Y), CSng(Size.X), CSng(Size.Y))
+        grabBuffer.DrawImageUnscaled(bmpSprite, CSng(Position.X), CSng(Position.Y), CSng(Size.X), CSng(Size.Y))
     End Sub
 
     Public Sub Delete() Implements IGameObject.Delete

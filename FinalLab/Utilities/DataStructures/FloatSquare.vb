@@ -1,28 +1,9 @@
 ﻿Public Class FloatSquare
-    Public X As Double
-    Public Y As Double
-    Public Height As Double
-    Public Width As Double
-
-    Public Property Position As Vector2D
-        Get
-            Return New Vector2D(X, Y)
-        End Get
-        Set(value As Vector2D)
-            X = value.X
-            Y = value.Y
-        End Set
-    End Property
-    Public Property Size As Vector2D
-        Get
-            Return New Vector2D(Height, Width)
-        End Get
-        Set(value As Vector2D)
-            Height = value.X
-            Width = value.Y
-        End Set
-    End Property
-
+    private dblX As Double
+    private dblY As Double
+    private dblHeight As Double
+    private dblWidth As Double
+    
     Public Sub New()
         Me.X = 0
         Me.Y = 0
@@ -43,6 +24,57 @@
         Me.Position = position
         Me.Size = size
     End Sub
+
+    Public Property X As Double
+        get
+            return dblX
+        End Get
+        Set
+            dblX = value
+        End Set
+    End Property
+    Public Property Y As Double
+        get
+            return dblY
+        End Get
+        Set
+            dblY = value
+        End Set
+    End Property
+    Public Property Height As Double
+        get
+            return dblHeight
+        End Get
+        Set
+            dblHeight = value
+        End Set
+    End Property
+    Public Property Width As Double
+        get
+            return dblWidth
+        End Get
+        Set
+            dblWidth = value
+        End Set
+    End Property
+    Public Property Position As Vector2D
+        Get
+            Return New Vector2D(X, Y)
+        End Get
+        Set
+            X = value.X
+            Y = value.Y
+        End Set
+    End Property
+    Public Property Size As Vector2D
+        Get
+            Return New Vector2D(Height, Width)
+        End Get
+        Set
+            Height = value.X
+            Width = value.Y
+        End Set
+    End Property
 
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me = obj

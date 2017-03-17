@@ -9,8 +9,7 @@
             Return GetRandomCoinType()
         End Get
     End Property
-
-
+    
     Public ReadOnly Property Name As String
     Public ReadOnly Property Value As Integer
     Public ReadOnly Property SpriteName As String

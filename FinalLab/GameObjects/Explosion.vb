@@ -1,14 +1,14 @@
 ﻿Public Class Explosion
     Inherits GameObject
+    
+    private Const intTOTAL_EXPLOSION_IMAGES as Integer = 6
+    private Dim Shared tsTotalExplosionTime As TimeSpan = TimeSpan.FromSeconds(2)
 
-    Const intTOTAL_EXPLOSION_IMAGES as Integer = 6
-    Dim Shared tsTotalExplosionTime As TimeSpan = TimeSpan.FromSeconds(2)
+    private Dim stopwatch As Stopwatch
 
-    Dim stopwatch As Stopwatch
+    private Dim gGame As frmFinalLab
 
-    Dim gGame As frmFinalLab
-
-    Dim Shared bmpSprites as Bitmap()
+    private Dim Shared bmpSprites as Bitmap()
 
     Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
         Me.gGame = gGame
@@ -25,7 +25,7 @@
             Next
         End If
     End Sub
-
+    
     Public Overrides Sub Update()
         ' Delete if the elapsed time is 2 seconds
         Dim tsTimeElapsed = stopwatch.Elapsed

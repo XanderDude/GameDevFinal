@@ -1,40 +1,15 @@
 ﻿Imports System.Threading
 
 Public Class frmFinalLab
-    Dim grabBuffer As Graphics
-
-    Public Property Money As Integer
-
-    Dim _playerShip As PlayerShip
-    Public Property PlayerShip As PlayerShip
-        Get
-            Return _playerShip
-        End Get
-        Private Set(value As PlayerShip)
-            _playerShip = PlayerShip
-        End Set
-    End Property
-
-    Friend ReadOnly Property Random As Random
-        Get
-            Return rngRandom
-        End Get
-    End Property
-
-    Public ReadOnly Property GameObjects
-        Get
-            Return _gameObjects
-        End Get
-    End Property
-
-    Private _gameObjects As List(Of IGameObject)
-
-    Friend Sub Spawn(spawnObject As IGameObject)
-        gameObjects.Add(spawnObject)
-    End Sub
     
-    Dim dtNextBolderSpawn As Date
-    Dim rngRandom As Random
+    private Dim rngRandom As Random
+    Private _gameObjects As List(Of IGameObject)
+    private Dim _playerShip As PlayerShip
+    private Dim intMoney as Integer
+    private dim intScore as Integer
+    Private bgBackGround as Background
+    private Dim dtNextBolderSpawn As Date
+    private Dim grabBuffer As Graphics
 
     ' Note: Pause and Running is different.
     ' Paused is the tracker for when the user presses P or pauses the game some other way
@@ -48,12 +23,52 @@ Public Class frmFinalLab
 
         ' Add any initialization after the InitializeComponent() call.
         _gameObjects = New List(Of IGameObject)
+        bgBackGround = new Background(me)
 
         dtNextBolderSpawn = Date.MinValue
         rngRandom = New Random()
         boolIsGamePaused = False
         boolIsGameRunning = False
+        intScore = 0
     End Sub
+    
+    Friend ReadOnly Property Random As Random
+        Get
+            Return rngRandom
+        End Get
+    End Property
+    Public ReadOnly Property GameObjects
+        Get
+            Return _gameObjects
+        End Get
+    End Property
+    Public Property PlayerShip As PlayerShip
+        Get
+            Return _playerShip
+        End Get
+        Private Set(value As PlayerShip)
+            _playerShip = PlayerShip
+        End Set
+    End Property
+    Public Property Money As Integer
+        get
+            return intMoney
+        End Get
+        Set
+            intMoney = value
+        End Set
+    End Property
+    Public Property Score as Integer
+        set
+            intScore = value
+            if intScore < 0
+                intScore = 0
+            End If
+        End Set
+        Get
+            return intScore
+        End Get
+    End Property
 
     Public sub StartGame()
         ' Stop the game first so we don't run into any bugs
@@ -72,6 +87,9 @@ Public Class frmFinalLab
 
         ' Set this to true
         boolIsGameRunning = true
+
+        ' Set the output text to this
+        OutputMessage("Game Started.")
     End sub
     Public sub EndGame()
         ' Set game started to false
@@ -87,6 +105,9 @@ Public Class frmFinalLab
         
         ' Set the clickable menu to enabled
         mnuStart.Enabled = true
+
+        ' Clear the output text
+        OutputMessage("")
     end Sub
     Public sub PauseGame()
         If boolIsGameRunning 
@@ -143,12 +164,18 @@ Public Class frmFinalLab
             Dim intBolderSpawnTimeInMiliseconds = rngRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime)
             dtNextBolderSpawn = DateTime.Now().AddMilliseconds(intBolderSpawnTimeInMiliseconds)
         End If
+
+        ' Update the background
+        bgBackGround.Update()
     End Sub
 
     Public Sub Draw(grabBuffer As Graphics)
         Try
-            ' Clear graphics
+            ' Clear the graphics
             grabBuffer.Clear(Color.White)
+
+            ' Draw the background
+            bgBackGround.Draw(grabBuffer)
             
             ' Draw the game objects
             For Each gameObject As GameObject In gameObjects
@@ -157,6 +184,13 @@ Public Class frmFinalLab
         Catch ex As Exception
         End Try
     End Sub
+
+    Public Sub Spawn(spawnObject As IGameObject)
+        gameObjects.Add(spawnObject)
+    End Sub
+    Public sub OutputMessage(strMessage As string)
+        lblOutput.Text = strMessage
+    End sub
     
     Private Sub frmFinalLab_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         grabBuffer = pnlGame.CreateGraphics()

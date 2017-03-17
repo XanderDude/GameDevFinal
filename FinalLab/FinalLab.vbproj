@@ -87,6 +87,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\Background.vb" />
     <Compile Include="GameObjects\Bolder.vb" />
     <Compile Include="frmFinalLab.vb">
       <SubType>Form</SubType>
@@ -127,9 +128,6 @@
     <Compile Include="Utilities\DataStructures\Vector2D.vb" />
     <Compile Include="Utilities\GameObject\GameObject.vb" />
     <Compile Include="Utilities\GameObject\IGameObject.vb" />
-    <Compile Include="Utilities\Sprite\AnimatedSprite.vb" />
-    <Compile Include="Utilities\Sprite\Sprite.vb" />
-    <Compile Include="Utilities\Sprite\SpriteSheet.vb" />
     <Compile Include="Utilities\TimeLine\ITimeLine.vb" />
     <Compile Include="Utilities\TimeLine\ITimeLineEvent.vb" />
     <Compile Include="Utilities\TimeLine\ShipSpawnEvent.vb" />

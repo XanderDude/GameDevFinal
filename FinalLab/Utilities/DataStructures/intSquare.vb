@@ -1,28 +1,9 @@
 ﻿Public class IntSquare
-    Public X As Integer
-    Public Y As Integer
-    Public Height As Integer
-    Public Width As Integer
-
-    Public Property Position As Point
-        Get
-            Return New Point(X, Y)
-        End Get
-        Set(value As Point)
-            X = value.X
-            Y = value.Y
-        End Set
-    End Property
-    Public Property Size As Point
-        Get
-            Return New Point(Height, Width)
-        End Get
-        Set(value As Point)
-            Height = value.X
-            Width = value.Y
-        End Set
-    End Property
-
+    private intX As Integer
+    private intY As Integer
+    private intHeight As Integer
+    private intWidth As Integer
+    
     Public Sub New()
         Me.X = 0
         Me.Y = 0
@@ -39,6 +20,57 @@
         Me.Position = position
         Me.Size = size
     End Sub
+
+    Public Property X As Double
+        get
+            return intX
+        End Get
+        Set
+            intX = value
+        End Set
+    End Property
+    Public Property Y As Double
+        get
+            return intY
+        End Get
+        Set
+            intY = value
+        End Set
+    End Property
+    Public Property Height As Double
+        get
+            return intHeight
+        End Get
+        Set
+            intHeight = value
+        End Set
+    End Property
+    Public Property Width As Double
+        get
+            return intWidth
+        End Get
+        Set
+            intWidth = value
+        End Set
+    End Property
+    Public Property Position As Point
+        Get
+            Return New Point(X, Y)
+        End Get
+        Set
+            X = value.X
+            Y = value.Y
+        End Set
+    End Property
+    Public Property Size As Point
+        Get
+            Return New Point(Height, Width)
+        End Get
+        Set
+            Height = value.X
+            Width = value.Y
+        End Set
+    End Property
 
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me = obj

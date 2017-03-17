@@ -5,8 +5,8 @@
         End Get
     End Property
 
-    Property X As Double
-    Property Y As Double
+    Property dblX As Double
+    Property dblY As Double
 
     Public Sub New()
         Me.X = 0
@@ -16,6 +16,23 @@
         Me.X = x
         Me.Y = y
     End Sub
+
+    Public Property X as Double
+        get
+                Return dblX
+        End Get
+        Set
+            dblX = value
+        End Set
+    End Property
+    Public Property Y as Double
+        get
+                Return dblY
+        End Get
+        Set
+            dblY = value
+        End Set
+    End Property
 
     Public Function Clone() As Vector2D
         Return New Vector2D(X, Y)
@@ -35,7 +52,7 @@
     Public Overrides Function ToString() As String
         Return $"({X},{Y})"
     End Function
-
+    
     Public Shared Operator *(ByVal first As Vector2D, ByVal second As Vector2D) As Vector2D
         Return New Vector2D(first.X * second.X, first.Y * second.Y)
     End Operator
