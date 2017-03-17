@@ -5,10 +5,10 @@ Public MustInherit Class GameObject
     Implements IGameObject
     
     Private dim vetPosition As Vector2D
-    Private dim boolDeleteMe As Boolean
-    Protected dim grabObjectBuffer As Graphics
     Protected dim bmpSprite As Bitmap
-
+    Protected dim grabObjectBuffer As Graphics
+    Private dim boolDeleteMe As Boolean
+    
     Public Property Position As Vector2D Implements IGameObject.Position
         Get
             Return vetPosition
@@ -22,6 +22,7 @@ Public MustInherit Class GameObject
             Return New Point(bmpSprite.Width, bmpSprite.Height)
         End Get
     End Property
+
     Protected ReadOnly Property Sprite As Bitmap Implements IGameObject.Sprite
         Get
             Return bmpSprite
@@ -98,8 +99,8 @@ Public MustInherit Class GameObject
 
         Return False
     End Function
-    Public Overridable Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
-        grabBuffer.DrawImageUnscaled(bmpSprite, CInt(Position.X), CInt(Position.Y), CInt(Size.X), CInt(Size.Y))
+    Public Overridable Sub Draw() Implements IGameObject.Draw
+        grabObjectBuffer.DrawImageUnscaled(bmpSprite, CInt(Position.X), CInt(Position.Y), Size.X, Size.Y)
     End Sub
     Public Overridable Sub Delete() Implements IGameObject.Delete
         DeleteMe = True

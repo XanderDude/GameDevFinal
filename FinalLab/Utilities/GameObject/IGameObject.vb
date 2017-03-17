@@ -10,6 +10,6 @@ Public Interface IGameObject
     
     Function Collide(goTestObject As IGameObject) As Boolean
     Sub Update()
-    Sub Draw(grabBuffer As Graphics)
+    Sub Draw()
     Sub Delete()
 End Interface

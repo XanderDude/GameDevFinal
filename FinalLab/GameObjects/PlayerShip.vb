@@ -9,9 +9,13 @@ Public Class PlayerShip
     Private Dim dtLastShoot As DateTime
     Private Dim intMaxLives As Integer
     Private Dim intLives As Integer
-    private dim gGame As frmFinalLab
+    Private Dim boolDead as Boolean
+    private Dim gGame As frmFinalLab
+    Private Dim swPlayTimeTimer as Stopwatch
     
     Sub New(gGame As frmFinalLab)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
+
         Me.Position = New Vector2D(250, 500)
         Me.bmpSprite = CType(Image.FromFile("Images/player_ship.jpg"), Bitmap)
         me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)
@@ -20,6 +24,9 @@ Public Class PlayerShip
         Me.intLives = shtTOTAL_LIVES
         me.intMaxLives = shtTOTAL_LIVES
         me.gGame = gGame
+
+        Me.swPlayTimeTimer = new Stopwatch()
+        Me.swPlayTimeTimer.Start()
     End Sub
     
     Public ReadOnly Property LastShot as DateTime
@@ -39,7 +46,7 @@ Public Class PlayerShip
     End Property
     Public ReadOnly Property Dead as Boolean
     get
-        return Lives = 0
+        return boolDead
     End Get
     End Property
     
@@ -47,7 +54,7 @@ Public Class PlayerShip
     End Sub
     
     Public Sub AtemptShoot()
-        Dim tsTimePerShot As TimeSpan = TimeSpan.FromSeconds(0.25)
+        Dim tsTimePerShot As TimeSpan = TimeSpan.FromSeconds(0.2)
 
         If (dtLastShoot + tsTimePerShot < Now()) Then
             ForcecShoot()
@@ -77,10 +84,7 @@ Public Class PlayerShip
         ' Damage intDamage
         intLives -= intDamage
         
-        If (Dead) Then
-            ' Output kill message
-            gGame.OutputMessage("Your ship was destroyed.")
-
+        If intLives <= 0 Then
             ' Kill the ship
             Kill()
         else
@@ -90,9 +94,25 @@ Public Class PlayerShip
     End Sub
 
     Friend Sub Kill()
-        'Spawn Explosion object
-        gGame.Spawn(New Explosion(gGame, Position.Clone()))
+        ' This is to prevent muliple explosion animations if the player dies more than once in a frame.
+        If Not boolDead
+            ' Stop timer
+            swPlayTimeTimer.Stop()
 
+            ' Set lives to 0
+            intLives = 0
+            
+            ' Output kill message
+            Dim intMinutesLasted as Integer = CInt(Math.Floor(swPlayTimeTimer.Elapsed.TotalMinutes))
+            Dim shtSecondsLasted as Short = CShort(swPlayTimeTimer.Elapsed.Seconds)
+            Dim intScore as Integer = gGame.Score
+            gGame.OutputMessage($"Your ship was destroyed. You lasted {CStr(intMinutesLasted)} minutes and {shtSecondsLasted} seconds with a score of {intScore}!")
+
+            'Spawn Explosion object
+            gGame.Spawn(New Explosion(gGame, Position.Clone()))
+
+            boolDead = true
+        End If
         ' Delete the ship
         Delete()
     End Sub

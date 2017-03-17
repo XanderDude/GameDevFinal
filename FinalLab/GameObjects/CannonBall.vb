@@ -9,6 +9,8 @@ Public Class CannonBall
     Private Dim gGame As frmFinalLab
 
     Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
+
         Me.gGame = gGame
         Me.Position = vecPosition
 
@@ -21,11 +23,12 @@ Public Class CannonBall
         Position.Y -= dblSPEED
         
         ' Check if it hits the bolder
-        for each goGameObject as GameObject in gGame.GameObjects
+        For i As Integer = 0 To gGame.GameObjects.Count - 1
+            Dim goGameObject As IGameObject = gGame.GameObjects(i)
             If typeof goGameObject Is Bolder
                 If Collide(goGameObject)
                     Dim bBolder as Bolder = CType(goGameObject, Bolder)
-                    
+
                     ' Damage the bolder
                     bBolder.Damage()
 

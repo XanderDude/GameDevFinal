@@ -12,6 +12,8 @@ Public Class Explosion
     private Dim gGame As frmFinalLab
 
     Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
+
         me.Position = vecPosition
         me.swStopwatch = new Stopwatch()
         me.swStopwatch.Start()
@@ -25,6 +27,9 @@ Public Class Explosion
                 bmpSprites(i).MakeTransparent(GlobalVariables.AplhaColor)
             Next
         End If
+
+        ' Set it to the first sprite for good measure
+        me.bmpSprite = bmpSprites(1)
     End Sub
     
     Public Overrides Sub Update()
@@ -38,14 +43,17 @@ Public Class Explosion
         else
             ' Play animation
             Dim bytExplosionFrame As Byte = CByte(Math.Floor((tsTimeElapsed.TotalMilliseconds / tsTotalExplosioNTime.TotalMilliseconds) * intTOTAL_EXPLOSION_IMAGES))
-        
+
             ' Weird case where if this runs between 999.5 ms and 999.99999999999998 ms that the top part won't trigger
             ' but the bottom will and crashes the program by setting intExplosionFrame to 7.
+            If bytExplosionFrame <= 0
+                bytExplosionFrame = 0
+            End If
             If bytExplosionFrame >= 7
                 bytExplosionFrame = 7
             End If
 
-            bmpSprite = bmpSprites(bytExplosionFrame+1)
+            bmpSprite = bmpSprites(bytExplosionFrame)
         End If
     End Sub
 End Class
