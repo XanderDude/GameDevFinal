@@ -1,4 +1,7 @@
-﻿Public Class PlayerShip
+﻿Option Strict On
+Option Explicit On
+
+Public Class PlayerShip
     Inherits GameObject
     
     Private Const shtTOTAL_LIVES as short = 5
@@ -12,7 +15,7 @@
     Sub New(gGame As frmFinalLab)
         me.gGame = gGame
         Me.Position = New Vector2D(250, 500)
-        Me.bmpSprite = Image.FromFile("Images/player_ship.jpg")
+        Me.bmpSprite = CType(Image.FromFile("Images/player_ship.jpg"), Bitmap)
 
         me.dtLastShoot = Now()
         Me.intLives = shtTOTAL_LIVES

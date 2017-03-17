@@ -1,4 +1,5 @@
-﻿Imports FinalLab
+﻿Option Strict On
+Option Explicit On
 
 Public Class Bolder
     Inherits GameObject
@@ -15,14 +16,14 @@ Public Class Bolder
         Me.Position = vecPosition
 
         ' Make the health random
-        me.shtHealth = gGame.Random.Next(shtMinHealth, shtMaxHealth)
+        me.shtHealth = CShort(gGame.Random.Next(shtMinHealth, shtMaxHealth))
 
         ' Make the bolder a random bolder
         Select Case gGame.Random.Next(1, 2)
             Case 1
-                bmpSprite = Image.FromFile("Images/bolder1.jpg")
+                bmpSprite = CType(Image.FromFile("Images/bolder1.jpg"), Bitmap)
             Case 2
-                bmpSprite = Image.FromFile("Images/bolder2.jpg")
+                bmpSprite = CType(Image.FromFile("Images/bolder2.jpg"), Bitmap)
         End Select
     End Sub
 
@@ -33,7 +34,7 @@ Public Class Bolder
     End Property
     
     Friend Sub Damage()
-        shtHealth -= 1
+        shtHealth -= 1S
 
         if shtHealth <= 0
             ' Increse game score

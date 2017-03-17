@@ -1,13 +1,16 @@
-﻿Imports System.Threading
+﻿Option Strict On
+Option Explicit On
+
+Imports System.Threading
 
 Public Class frmFinalLab
     
-    private Dim rngRandom As Random
-    Private _gameObjects As List(Of IGameObject)
-    private Dim _playerShip As PlayerShip
+    private Dim rndRandom As Random
+    Private Dim goGameObjects As List(Of IGameObject)
+    private Dim psPlayerShip As PlayerShip
     private Dim intMoney as Integer
     private dim intScore as Integer
-    Private bgBackGround as Background
+    Private Dim bgBackGround as Background
     private Dim dtNextBolderSpawn As Date
     private Dim grabBuffer As Graphics
 
@@ -22,11 +25,11 @@ Public Class frmFinalLab
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        _gameObjects = New List(Of IGameObject)
+        goGameObjects = New List(Of IGameObject)
         bgBackGround = new Background(me)
 
         dtNextBolderSpawn = Date.MinValue
-        rngRandom = New Random()
+        rndRandom = New Random()
         boolIsGamePaused = False
         boolIsGameRunning = False
         intScore = 0
@@ -34,20 +37,20 @@ Public Class frmFinalLab
     
     Friend ReadOnly Property Random As Random
         Get
-            Return rngRandom
+            Return rndRandom
         End Get
     End Property
-    Public ReadOnly Property GameObjects
+    Public ReadOnly Property GameObjects As List(Of IGameObject)
         Get
-            Return _gameObjects
+            Return goGameObjects
         End Get
     End Property
     Public Property PlayerShip As PlayerShip
         Get
-            Return _playerShip
+            Return psPlayerShip
         End Get
         Private Set(value As PlayerShip)
-            _playerShip = PlayerShip
+            psPlayerShip = PlayerShip
         End Set
     End Property
     Public Property Money As Integer
@@ -82,8 +85,8 @@ Public Class frmFinalLab
         boolIsGamePaused = false
 
         ' Spawn the player ship
-        _playerShip = New PlayerShip(Me)
-        Spawn(_playerShip)
+        psPlayerShip = New PlayerShip(Me)
+        Spawn(psPlayerShip)
 
         ' Set this to true
         boolIsGameRunning = true
@@ -96,10 +99,10 @@ Public Class frmFinalLab
         boolIsGameRunning = false
 
         ' Remove player ship
-        _playerShip = Nothing
+        psPlayerShip = Nothing
 
         ' Remove all game objects
-        for each goGameObject as GameObject in _gameObjects
+        for each goGameObject as GameObject in goGameObjects
             goGameObject.Delete()
         Next
         
@@ -141,8 +144,8 @@ Public Class frmFinalLab
 
     Public Overloads Sub Update()
         ' Update other game objects
-        for i as Integer = 0 to _gameObjects.Count() - 1
-            Dim goGameObject as IGameObject = _gameObjects(i)
+        for i as Integer = 0 to goGameObjects.Count() - 1
+            Dim goGameObject as IGameObject = goGameObjects(i)
 
             If Not goGameObject.DeleteMe Then
                 goGameObject.Update()
@@ -150,18 +153,18 @@ Public Class frmFinalLab
         Next
         
         ' Remove game objects
-        _gameObjects.RemoveAll(Function(goGameObject As IGameObject) goGameObject.DeleteMe)
+        goGameObjects.RemoveAll(Function(goGameObject As IGameObject) goGameObject.DeleteMe)
 
         ' Spawn Bolders
         Dim intMinBolderSpawnTime As Integer = 200
         Dim intMaxBolderSpawnTime As Integer = 2000
 
         If (dtNextBolderSpawn < Now()) Then
-            Dim intSpawnX = rngRandom.Next(0, 500)
+            Dim intSpawnX = rndRandom.Next(0, 500)
 
             Spawn(New Bolder(Me, New Vector2D(intSpawnX, 0)))
 
-            Dim intBolderSpawnTimeInMiliseconds = rngRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime)
+            Dim intBolderSpawnTimeInMiliseconds = rndRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime)
             dtNextBolderSpawn = DateTime.Now().AddMilliseconds(intBolderSpawnTimeInMiliseconds)
         End If
 
@@ -178,7 +181,7 @@ Public Class frmFinalLab
             bgBackGround.Draw(grabBuffer)
             
             ' Draw the game objects
-            For Each gameObject As GameObject In gameObjects
+            For Each gameObject As GameObject In goGameObjects
                 gameObject.Draw(grabBuffer)
             Next
         Catch ex As Exception
@@ -199,22 +202,24 @@ Public Class frmFinalLab
     Private Sub frmFinalLab_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Const dblSHIP_MOVE_SPEED As Double = 5
         
+        ' Do player movement stuff
         If Not boolIsGamePaused and boolIsGameRunning
             Select Case e.KeyData
-                Case Keys.Up
+                Case Keys.Up OR Keys.W
                     PlayerShip.Position.Y -= dblSHIP_MOVE_SPEED
-                Case Keys.Down
+                Case Keys.Down OR keys.S
                     PlayerShip.Position.Y += dblSHIP_MOVE_SPEED
-                Case Keys.Left
+                Case Keys.Left OR keys.A
                     PlayerShip.Position.X -= dblSHIP_MOVE_SPEED
-                Case Keys.Right
+                Case Keys.Right OR Keys.D
                     PlayerShip.Position.X += dblSHIP_MOVE_SPEED
-                Case Keys.Space
+                Case Keys.Space Or Keys.Enter
                     PlayerShip.AtemptShoot()
                 Case Keys.P
                     boolIsGamePaused = Not boolIsGamePaused
             End Select
 
+            ' Make sure the player doesn't reach the bounderies
             If PlayerShip.Position.X < 0 Then
                 PlayerShip.Position.X = 0
             End If

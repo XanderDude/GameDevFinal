@@ -128,11 +128,6 @@
     <Compile Include="Utilities\DataStructures\Vector2D.vb" />
     <Compile Include="Utilities\GameObject\GameObject.vb" />
     <Compile Include="Utilities\GameObject\IGameObject.vb" />
-    <Compile Include="Utilities\TimeLine\ITimeLine.vb" />
-    <Compile Include="Utilities\TimeLine\ITimeLineEvent.vb" />
-    <Compile Include="Utilities\TimeLine\ShipSpawnEvent.vb" />
-    <Compile Include="Utilities\TimeLine\TimeLineEvent.vb" />
-    <Compile Include="Utilities\TimeLine\TimmedEvent.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmFinalLab.resx">

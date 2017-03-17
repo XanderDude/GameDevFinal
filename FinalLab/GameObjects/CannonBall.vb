@@ -1,4 +1,7 @@
-﻿Public Class CannonBall
+﻿Option Strict On
+Option Explicit On
+
+Public Class CannonBall
     Inherits GameObject
     
     Private Const dblSPEED As Double = 3.5
@@ -9,7 +12,7 @@
         Me.gGame = gGame
         Me.Position = vecPosition
 
-        Me.bmpSprite = Image.FromFile("Images/cball.jpg")
+        Me.bmpSprite = CType(Image.FromFile("Images/cball.jpg"), Bitmap)
     End Sub
 
     Public Overrides Sub Update()

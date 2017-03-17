@@ -1,8 +1,8 @@
 ﻿Public class IntSquare
-    private intX As Integer
-    private intY As Integer
-    private intHeight As Integer
-    private intWidth As Integer
+    private dim intX As Integer
+    private dim intY As Integer
+    private dim intHeight As Integer
+    private dim intWidth As Integer
     
     Public Sub New()
         Me.X = 0
@@ -21,7 +21,7 @@
         Me.Size = size
     End Sub
 
-    Public Property X As Double
+    Public Property X As Integer
         get
             return intX
         End Get
@@ -29,7 +29,7 @@
             intX = value
         End Set
     End Property
-    Public Property Y As Double
+    Public Property Y As Integer
         get
             return intY
         End Get
@@ -37,7 +37,7 @@
             intY = value
         End Set
     End Property
-    Public Property Height As Double
+    Public Property Height As Integer
         get
             return intHeight
         End Get
@@ -45,7 +45,7 @@
             intHeight = value
         End Set
     End Property
-    Public Property Width As Double
+    Public Property Width As Integer
         get
             return intWidth
         End Get
@@ -115,6 +115,6 @@
     End Operator
 
     Public Shared Widening Operator CType(square As FloatSquare) As IntSquare
-        Return New IntSquare(square.X, square.Y, square.Height, square.Width)
+        Return New IntSquare(CInt(square.X), CInt(square.Y), CInt(square.Height), CInt(square.Width))
     End Operator
 End class

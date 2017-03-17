@@ -1,12 +1,13 @@
-﻿Imports FinalLab
+﻿Option Strict On
+Option Explicit On
 
 Public MustInherit Class GameObject
     Implements IGameObject
     
-    Private vetPosition As Vector2D
-    Private boolDeleteMe As Boolean
-    Protected grabObjectBuffer As Graphics
-    Protected bmpSprite As Bitmap
+    Private dim vetPosition As Vector2D
+    Private dim boolDeleteMe As Boolean
+    Protected dim grabObjectBuffer As Graphics
+    Protected dim bmpSprite As Bitmap
 
     Public Property Position As Vector2D Implements IGameObject.Position
         Get
@@ -41,8 +42,15 @@ Public MustInherit Class GameObject
         Dim colAplhaColor = Color.FromArgb(255, 0, 250, 249)
 
         ' test rectangle collision
-        Dim recFirsObject As Rectangle = New Rectangle(New Drawing.Point(Position.X, Position.Y), New Size(Size.X, Size.Y))
-        Dim recSecondObject As Rectangle = New Rectangle(New Drawing.Point(Position.X, Position.Y), New Size(Size.X, Size.Y))
+        Dim recFirsObject As Rectangle = New Rectangle(
+            New Drawing.Point(CInt(Math.Round(Position.X)),
+            CInt(Math.Round(Position.Y))), 
+            New Size(CInt(Math.Round(Size.X)), CInt(Math.Round(Size.Y))))
+
+        Dim recSecondObject As Rectangle = New Rectangle(
+            New Drawing.Point(CInt(Math.Round(Position.X)), cint(Math.Round(Position.Y))), 
+            New Size(CInt(Math.Round(Size.X)), CInt(Math.Round(Size.Y))))
+
         Dim vetSecondObjectOffset As Vector2D = New Vector2D(
                         Position.X - testObject.Position.X,
                         Position.Y - testObject.Position.Y)
@@ -53,8 +61,8 @@ Public MustInherit Class GameObject
             Dim bmpSecondObject As Bitmap = testObject.Sprite
 
             ' Check if the first object is hitting the second object
-            For x As Short = 0 To bmpFirstObject.Width - 1
-                For y As Short = 0 To bmpFirstObject.Height - 1
+            For x As Short = 0 To CShort(bmpFirstObject.Width - 1)
+                For y As Short = 0 To CShort(bmpFirstObject.Height - 1)
                     ' Check if the pixel could even be hitting the second object's pixel
                     If (x + vetSecondObjectOffset.X < 0 Or x + vetSecondObjectOffset.X > bmpSecondObject.Width - 1) Then
                         Continue For
@@ -65,7 +73,7 @@ Public MustInherit Class GameObject
 
                     ' Get the colors of the two pixels that are colliding
                     Dim pxlFirstPixel = bmpFirstObject.GetPixel(x, y)
-                    Dim pxlSecondPixel = bmpSecondObject.GetPixel(x + vetSecondObjectOffset.X, y + vetSecondObjectOffset.Y)
+                    Dim pxlSecondPixel = bmpSecondObject.GetPixel(CInt(Math.Round(x + vetSecondObjectOffset.X)), CInt(Math.Round(y + vetSecondObjectOffset.Y)))
 
                     ' Continue if any of the pixels are the alpha color
                     If (pxlFirstPixel = colAplhaColor) Then
@@ -85,7 +93,7 @@ Public MustInherit Class GameObject
     End Function
 
     Public Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
-        grabBuffer.DrawImageUnscaled(bmpSprite, CSng(Position.X), CSng(Position.Y), CSng(Size.X), CSng(Size.Y))
+        grabBuffer.DrawImageUnscaled(bmpSprite, CInt(Position.X), CInt(Position.Y), CInt(Size.X), CInt(Size.Y))
     End Sub
 
     Public Sub Delete() Implements IGameObject.Delete

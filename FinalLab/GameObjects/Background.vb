@@ -1,4 +1,7 @@
-﻿Public Class Background
+﻿Option Strict On
+Option Explicit On
+
+Public Class Background
     Inherits GameObject
     Private Const dblSCROLL_SPEED as Double = 0.5
 
@@ -9,7 +12,7 @@
         Me.gGame = gGame
         Me.dblScrollPosition = 0
 
-        Me.bmpSprite = Image.FromFile("Images/background.jpg")
+        Me.bmpSprite = CType(Image.FromFile("Images/background.jpg"), Bitmap)
     End Sub
 
     Public Overrides Sub Update()
@@ -23,9 +26,9 @@
 
     Public Overloads sub Draw(grabBuffer As Graphics)
         ' Draw the sprite
-        grabBuffer.DrawImageUnscaled(bmpSprite, 0, dblScrollPosition, CSng(Size.X), CSng(Size.Y))
-        
+        grabBuffer.DrawImageUnscaled(bmpSprite, 0, CInt(Math.Round(dblScrollPosition)), CInt(Size.X), CInt(Size.Y))
+
         ' Draw the sprite again at the top of the sprite so white space doesnt show
-        grabBuffer.DrawImageUnscaled(bmpSprite, 0, dblScrollPosition - gGame.pnlGame.Height, CSng(Size.X), CSng(Size.Y))
+        grabBuffer.DrawImageUnscaled(bmpSprite, 0, CInt(Math.Round(dblScrollPosition - gGame.pnlGame.Height)), CInt(Size.X), CInt(Size.Y))
     End sub
 End Class

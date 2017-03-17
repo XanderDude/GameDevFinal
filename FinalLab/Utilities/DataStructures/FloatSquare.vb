@@ -1,8 +1,8 @@
 ﻿Public Class FloatSquare
-    private dblX As Double
-    private dblY As Double
-    private dblHeight As Double
-    private dblWidth As Double
+    private dim dblX As Double
+    private dim dblY As Double
+    private dim dblHeight As Double
+    private dim dblWidth As Double
     
     Public Sub New()
         Me.X = 0

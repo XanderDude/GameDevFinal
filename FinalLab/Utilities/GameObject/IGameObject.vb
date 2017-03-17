@@ -1,4 +1,7 @@
-﻿Public Interface IGameObject
+﻿Option Strict On
+Option Explicit On
+
+Public Interface IGameObject
     ReadOnly Property Sprite As Bitmap
     
     ReadOnly Property Position As Vector2D

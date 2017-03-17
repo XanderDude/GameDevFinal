@@ -5,8 +5,8 @@
         End Get
     End Property
 
-    Property dblX As Double
-    Property dblY As Double
+    private dim dblX As Double
+    private dim dblY As Double
 
     Public Sub New()
         Me.X = 0
@@ -105,7 +105,7 @@
             Return True
         End If
 
-        Return first.X = second.X & first.Y = second.Y
+        Return (first.X = second.X) & (first.Y = second.Y)
     End Operator
     Public Shared Operator <>(ByVal first As Vector2D, ByVal second As Vector2D)
         If (first Is Nothing Or second Is Nothing) Then
@@ -116,7 +116,7 @@
             End If
         End If
 
-        Return first.X <> second.X & first.Y <> second.Y
+        Return (first.X <> second.X) & (first.Y <> second.Y)
     End Operator
 
     Public Shared Widening Operator CType(point As Point) As Vector2D

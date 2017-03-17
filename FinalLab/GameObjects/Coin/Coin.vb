@@ -1,7 +1,10 @@
-﻿Public Class Coin
+﻿Option Strict On
+Option Explicit On
+
+Public Class Coin
     Inherits GameObject
     Private game As frmFinalLab = Nothing
-
+    
     Private Dim ReadOnly ctCoinType As CoinType = CoinType.Unknown
     
     Public Sub New(game As frmFinalLab, ctCoinType As CoinType)

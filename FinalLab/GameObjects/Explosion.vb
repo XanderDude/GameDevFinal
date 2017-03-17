@@ -1,10 +1,13 @@
-﻿Public Class Explosion
+﻿Option Strict On
+Option Explicit On
+
+Public Class Explosion
     Inherits GameObject
     
     private Const intTOTAL_EXPLOSION_IMAGES as Integer = 6
     private Dim Shared tsTotalExplosionTime As TimeSpan = TimeSpan.FromSeconds(2)
 
-    private Dim stopwatch As Stopwatch
+    private Dim swStopwatch As Stopwatch
 
     private Dim gGame As frmFinalLab
 
@@ -14,8 +17,8 @@
         Me.gGame = gGame
         Position = vecPosition
 
-        stopwatch = new Stopwatch()
-        stopwatch.Start()
+        swStopwatch = new Stopwatch()
+        swStopwatch.Start()
 
         ' Load spritse if they haven't been loaded before
         if bmpSprites Is nothing
@@ -28,11 +31,11 @@
     
     Public Overrides Sub Update()
         ' Delete if the elapsed time is 2 seconds
-        Dim tsTimeElapsed = stopwatch.Elapsed
+        Dim tsTimeElapsed = swStopwatch.Elapsed
 
         If tsTimeElapsed >= tsTotalExplosioNTime Then
             ' Stop the stopwatch and delete the explosion
-            stopwatch.Stop()
+            swStopwatch.Stop()
             Delete()
         else
             ' Play animation
