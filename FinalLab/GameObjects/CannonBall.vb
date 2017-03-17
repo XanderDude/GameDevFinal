@@ -6,10 +6,10 @@ Public Class CannonBall
     
     Private Const dblSPEED As Double = 3.5
 
-    Private Dim frmFinalLab As frmFinalLab
+    Private Dim gGame As frmFinalLab
 
-    Sub New(frmFinalLab As frmFinalLab, vecPosition As Vector2D)
-        Me.frmFinalLab = frmFinalLab
+    Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        Me.gGame = gGame
         Me.Position = vecPosition
 
         Me.bmpSprite = CType(Image.FromFile("Images/cball.jpg"), Bitmap)
@@ -21,7 +21,7 @@ Public Class CannonBall
         Position.Y -= dblSPEED
         
         ' Check if it hits the bolder
-        for each goGameObject as GameObject in frmFinalLab.GameObjects
+        for each goGameObject as GameObject in gGame.GameObjects
             If typeof goGameObject Is Bolder
                 If Collide(goGameObject)
                     Dim bBolder as Bolder = CType(goGameObject, Bolder)
@@ -34,5 +34,10 @@ Public Class CannonBall
                 end if
             End If
         Next
+
+        ' Delete if off the map
+        if(Position.Y < 0)
+            Delete()
+        End If
     End Sub
 End Class

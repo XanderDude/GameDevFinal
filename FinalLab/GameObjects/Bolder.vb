@@ -4,6 +4,7 @@ Option Explicit On
 Public Class Bolder
     Inherits GameObject
     
+    Private Const dblSPEED As Double = 1.75
     Private Const shtTOTAL_BOLDER_TYPES = 2
     Private Const shtSCORE_WORTH as short = 5
     Private Const shtMinHealth as short = 4
@@ -11,13 +12,13 @@ Public Class Bolder
 
     Private Shared Dim bmpBolderSprites as Bitmap()
     
-    Private Dim frmFinalLab As frmFinalLab
+    Private Dim gGame As frmFinalLab
     private Dim shtHealth as short
 
     
 
-    Public Sub New(frmFinalLab As frmFinalLab, vecPosition As Vector2D)
-        Me.frmFinalLab = frmFinalLab
+    Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        Me.gGame = gGame
         Me.Position = vecPosition
 
         ' Make the health random
@@ -52,10 +53,10 @@ Public Class Bolder
 
         if shtHealth <= 0
             ' Increse game score
-            frmFinalLab.Score += shtSCORE_WORTH
+            gGame.Score += shtSCORE_WORTH
             
             ' Outputs message
-            frmFinalLab.OutputMessage("Bolder Destroyed! Score: " & Str(frmFinalLab.Score))
+            gGame.OutputMessage("Bolder Destroyed! Score: " & Str(gGame.Score))
 
             ' Delete the bolder
             Delete()
@@ -63,13 +64,18 @@ Public Class Bolder
     End Sub
     
     Public Overrides Sub Update()
-        Const dblSPEED As Double = 1.75
-
+        ' Moves position
         Me.Position.Y += dblSPEED
 
-        If (Collide(frmFinalLab.PlayerShip)) Then
+        ' Damage ship if collides
+        If (Collide(gGame.PlayerShip)) Then
             Delete()
-            frmFinalLab.PlayerShip.Damage()
+            gGame.PlayerShip.Damage()
+        End If
+
+        ' Delete if off the map
+        if(Position.Y > gGame.pnlGame.Height)
+            Delete()
         End If
     End Sub
 End Class

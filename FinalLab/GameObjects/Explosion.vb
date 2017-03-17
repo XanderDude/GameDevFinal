@@ -9,13 +9,13 @@ Public Class Explosion
     private Dim Shared bmpSprites as Bitmap()
 
     private Dim swStopwatch As Stopwatch
-    private Dim frmFinalLab As frmFinalLab
+    private Dim gGame As frmFinalLab
 
-    Public Sub New(frmFinalLab As frmFinalLab, vecPosition As Vector2D)
+    Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
         me.Position = vecPosition
         me.swStopwatch = new Stopwatch()
         me.swStopwatch.Start()
-        Me.frmFinalLab = frmFinalLab
+        Me.gGame = gGame
 
         ' Load spritse if they haven't been loaded before
         if bmpSprites Is nothing
