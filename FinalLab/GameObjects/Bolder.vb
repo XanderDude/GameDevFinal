@@ -7,8 +7,8 @@ Public Class Bolder
     Private Const dblSPEED As Double = 1.75
     Private Const shtTOTAL_BOLDER_TYPES = 2
     Private Const shtSCORE_WORTH as short = 5
-    Private Const shtMinHealth as short = 4
-    Private Const shtMaxHealth as short = 6
+    Private Const shtMinHealth as short = 3
+    Private Const shtMaxHealth as short = 4
 
     Private Shared Dim bmpBolderSprites as Bitmap()
     
@@ -16,7 +16,7 @@ Public Class Bolder
     private Dim shtHealth as short
     
     Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
-        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
 
         Me.gGame = gGame
         Me.Position = vecPosition

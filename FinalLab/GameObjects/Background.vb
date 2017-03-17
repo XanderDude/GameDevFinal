@@ -9,7 +9,7 @@ Public Class Background
     Private Dim dblScrollPosition as Double
 
     Public Sub New(gGame As frmFinalLab)
-        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
 
         Me.gGame = gGame
         Me.dblScrollPosition = 0

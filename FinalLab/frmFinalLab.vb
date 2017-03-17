@@ -11,6 +11,8 @@ Public Class frmFinalLab
     private dim intScore as Integer
     Private Dim bgBackGround as Background
     private Dim dtNextBolderSpawn As Date
+    private Dim graBG As Graphics
+    private Dim bmpBuffer As Bitmap
 
     ' Note: Pause and Running is different.
     ' Paused is the tracker for when the user presses P or pauses the game some other way
@@ -67,6 +69,11 @@ Public Class frmFinalLab
     Friend ReadOnly Property Random As Random
         Get
             Return rndRandom
+        End Get
+    End Property
+    Friend ReadOnly Property Buffer as Bitmap
+        get
+                return bmpBuffer
         End Get
     End Property
 
@@ -165,9 +172,17 @@ Public Class frmFinalLab
         Dim intMaxBolderSpawnTime As Integer = 2000
 
         If (dtNextBolderSpawn < Now()) Then
-            Dim intSpawnX = rndRandom.Next(0, pnlGame.Width)
+            ' Create the bolder
+            Dim bBolder as Bolder = New Bolder(Me, New Vector2D(0, 0))
+            
+            ' Spawn the bolder
+            Spawn(bBolder)
 
-            Spawn(New Bolder(Me, New Vector2D(intSpawnX, 0)))
+            ' Get the closes to the edge that the player can still hit a bolder at it's middle
+            Dim dblEdigeSpawnOffset as Double = (PlayerShip.Size.X/2) - (bBolder.Size.X/2)
+
+            ' Move the bolder's X to a position that is fair to the player
+            bBolder.Position.X = Random.Next(CInt(dblEdigeSpawnOffset),CInt(pnlGame.Width - dblEdigeSpawnOffset))
 
             Dim intBolderSpawnTimeInMiliseconds = rndRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime+1)
             dtNextBolderSpawn = DateTime.Now().AddMilliseconds(intBolderSpawnTimeInMiliseconds)
@@ -178,9 +193,6 @@ Public Class frmFinalLab
     End Sub
     Public Sub Draw(grabBuffer As Graphics)
         Try
-            ' Clear the graphics
-            'grabBuffer.Clear(Color.White)
-
             ' Draw the background
             bgBackGround.Draw()
 
@@ -188,11 +200,8 @@ Public Class frmFinalLab
             For Each gameObject As GameObject In goGameObjects
                 gameObject.Draw()
             Next
-
             
             graBG.DrawImageUnscaled(bmpBuffer, 0, 0)
-            
-            
         Catch ex As Exception
         End Try
     End Sub
@@ -204,9 +213,6 @@ Public Class frmFinalLab
         lblOutput.Text = strMessage
     End sub
     
-    Dim graBG As Graphics
-    Public Dim bmpBuffer As Bitmap
-
     Private Sub frmFinalLab_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         bmpBuffer = New Bitmap(pnlGame.Width, pnlGame.Height)
         graBG = pnlGame.CreateGraphics

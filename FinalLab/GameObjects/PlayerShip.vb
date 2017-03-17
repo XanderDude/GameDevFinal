@@ -9,10 +9,11 @@ Public Class PlayerShip
     Private Dim dtLastShoot As DateTime
     Private Dim intMaxLives As Integer
     Private Dim intLives As Integer
+    Private Dim boolDead as Boolean
     private dim gGame As frmFinalLab
     
     Sub New(gGame As frmFinalLab)
-        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
 
         Me.Position = New Vector2D(250, 500)
         Me.bmpSprite = CType(Image.FromFile("Images/player_ship.jpg"), Bitmap)
@@ -41,7 +42,7 @@ Public Class PlayerShip
     End Property
     Public ReadOnly Property Dead as Boolean
     get
-        return Lives <= 0
+        return boolDead
     End Get
     End Property
     
@@ -79,12 +80,10 @@ Public Class PlayerShip
         ' Damage intDamage
         intLives -= intDamage
         
-        ' The ship can't have less than 0 lives! (This probably won't matter, but just incase)
-        if intLives < 0
+        If intLives <= 0 Then
+            ' The ship can't have less than 0 lives! (This probably won't matter, but just incase)
             intLives = 0
-        End If
 
-        If Dead Then
             ' Output kill message
             gGame.OutputMessage("Your ship was destroyed.")
 
@@ -97,9 +96,14 @@ Public Class PlayerShip
     End Sub
 
     Friend Sub Kill()
-        'Spawn Explosion object
-        gGame.Spawn(New Explosion(gGame, Position.Clone()))
 
+        ' This is to prevent muliple explosion animations if the player dies more than once in a frame.
+        If Not boolDead
+            'Spawn Explosion object
+            gGame.Spawn(New Explosion(gGame, Position.Clone()))
+
+            boolDead = true
+        End If
         ' Delete the ship
         Delete()
     End Sub
