@@ -6,9 +6,9 @@
         Me.X = 0
         Me.Y = 0
     End Sub
-    Public Sub New(x As Integer, y As Integer)
-        Me.X = x
-        Me.Y = y
+    Public Sub New(intX As Integer, intY As Integer)
+        Me.X = intX
+        Me.Y = intY
     End Sub
     
     Public Property X as Integer

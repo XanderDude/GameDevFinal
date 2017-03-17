@@ -8,7 +8,7 @@ Public Interface IGameObject
     ReadOnly Property Size As Vector2D
     ReadOnly Property DeleteMe As Boolean
     
-    Function Collide(testObject As IGameObject) As Boolean
+    Function Collide(goTestObject As IGameObject) As Boolean
     Sub Update()
     Sub Draw(grabBuffer As Graphics)
     Sub Delete()

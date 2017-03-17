@@ -3,12 +3,12 @@ Option Explicit On
 
 Public Class Coin
     Inherits GameObject
-    Private game As frmFinalLab = Nothing
-    
+
     Private Dim ReadOnly ctCoinType As CoinType = CoinType.Unknown
+    Private Dim gGame As frmFinalLab = Nothing
     
-    Public Sub New(game As frmFinalLab, ctCoinType As CoinType)
-        me.game = game
+    Public Sub New(gGame As frmFinalLab, ctCoinType As CoinType)
+        me.gGame = gGame
         Me.ctCoinType = ctCoinType
     End Sub
     
@@ -19,8 +19,8 @@ Public Class Coin
     End Property
 
     Public Overrides Sub Update()
-        If (Me.Collide(game.PlayerShip)) Then
-            game.Money += ctCoinType.Value
+        If (Me.Collide(gGame.PlayerShip)) Then
+            gGame.Money += ctCoinType.Value
             Me.Delete()
         End If
     End Sub

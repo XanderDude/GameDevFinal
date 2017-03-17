@@ -12,9 +12,9 @@
         Me.X = 0
         Me.Y = 0
     End Sub
-    Public Sub New(x As Double, y As Double)
-        Me.X = x
-        Me.Y = y
+    Public Sub New(dblX As Double, dblY As Double)
+        Me.X = dblX
+        Me.Y = dblY
     End Sub
 
     Public Property X as Double

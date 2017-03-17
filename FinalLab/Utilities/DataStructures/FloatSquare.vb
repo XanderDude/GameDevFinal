@@ -10,19 +10,19 @@
         Me.Height = 0
         Me.Width = 0
     End Sub
-    Public Sub New(x As Double, y As Double, height As Double, width As Double)
-        Me.X = x
-        Me.Y = y
-        Me.Height = height
-        Me.Width = width
+    Public Sub New(dblX As Double, dblY As Double, dblHeight As Double, dblWidth As Double)
+        Me.X = dblx
+        Me.Y = dbly
+        Me.Height = dblHeight
+        Me.Width = dblWidth
     End Sub
-    Public Sub New(position As Vector2D, size As Vector2D)
-        Me.Position = position
-        Me.Size = size
+    Public Sub New(vetPosition As Vector2D, vetSize As Vector2D)
+        Me.Position = vetPosition
+        Me.Size = vetSize
     End Sub
-    Public Sub New(position As Point, size As Point)
-        Me.Position = position
-        Me.Size = size
+    Public Sub New(pntPosition As Point, pntSize As Point)
+        Me.Position = pntPosition
+        Me.Size = pntSize
     End Sub
 
     Public Property X As Double

@@ -6,25 +6,23 @@ Public Class Explosion
     
     private Const intTOTAL_EXPLOSION_IMAGES as Integer = 6
     private Dim Shared tsTotalExplosionTime As TimeSpan = TimeSpan.FromSeconds(2)
-
-    private Dim swStopwatch As Stopwatch
-
-    private Dim gGame As frmFinalLab
-
     private Dim Shared bmpSprites as Bitmap()
 
-    Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
-        Me.gGame = gGame
-        Position = vecPosition
+    private Dim swStopwatch As Stopwatch
+    private Dim frmFinalLab As frmFinalLab
 
-        swStopwatch = new Stopwatch()
-        swStopwatch.Start()
+    Public Sub New(frmFinalLab As frmFinalLab, vecPosition As Vector2D)
+        me.Position = vecPosition
+        me.swStopwatch = new Stopwatch()
+        me.swStopwatch.Start()
+        Me.frmFinalLab = frmFinalLab
 
         ' Load spritse if they haven't been loaded before
         if bmpSprites Is nothing
             bmpSprites = New Bitmap(intTOTAL_EXPLOSION_IMAGES){}
             for i As Integer = 0 to intTOTAL_EXPLOSION_IMAGES - 1
                 bmpSprites(i) = New Bitmap($"Images/explosion{CStr(i+1)}.jpg")
+                bmpSprites(i).MakeTransparent(GlobalVariables.AplhaColor)
             Next
         End If
     End Sub

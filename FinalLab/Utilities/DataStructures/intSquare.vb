@@ -10,15 +10,15 @@
         Me.Height = 0
         Me.Width = 0
     End Sub
-    Public Sub New(x As Integer, y As Integer, height As Integer, width As Integer)
-        Me.X = x
-        Me.Y = y
-        Me.Height = height
-        Me.Width = width
+    Public Sub New(intX As Integer, intY As Integer, intHeight As Integer, intWidth As Integer)
+        Me.X = intX
+        Me.Y = intY
+        Me.Height = intHeight
+        Me.Width = intWidth
     End Sub
-    Public Sub New(position As Point, size As Point)
-        Me.Position = position
-        Me.Size = size
+    Public Sub New(pntPosition As Point, pntSize As Point)
+        Me.Position = pntPosition
+        Me.Size = pntSize
     End Sub
 
     Public Property X As Integer

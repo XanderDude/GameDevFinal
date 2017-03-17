@@ -4,7 +4,6 @@ Option Explicit On
 Imports System.Threading
 
 Public Class frmFinalLab
-    
     private Dim rndRandom As Random
     Private Dim goGameObjects As List(Of IGameObject)
     private Dim psPlayerShip As PlayerShip
@@ -35,11 +34,6 @@ Public Class frmFinalLab
         intScore = 0
     End Sub
     
-    Friend ReadOnly Property Random As Random
-        Get
-            Return rndRandom
-        End Get
-    End Property
     Public ReadOnly Property GameObjects As List(Of IGameObject)
         Get
             Return goGameObjects
@@ -49,7 +43,7 @@ Public Class frmFinalLab
         Get
             Return psPlayerShip
         End Get
-        Private Set(value As PlayerShip)
+        Private Set
             psPlayerShip = PlayerShip
         End Set
     End Property
@@ -70,6 +64,11 @@ Public Class frmFinalLab
         End Set
         Get
             return intScore
+        End Get
+    End Property
+    Friend ReadOnly Property Random As Random
+        Get
+            Return rndRandom
         End Get
     End Property
 
@@ -188,8 +187,8 @@ Public Class frmFinalLab
         End Try
     End Sub
 
-    Public Sub Spawn(spawnObject As IGameObject)
-        gameObjects.Add(spawnObject)
+    Public Sub Spawn(goSpawnObject As IGameObject)
+        gameObjects.Add(goSpawnObject)
     End Sub
     Public sub OutputMessage(strMessage As string)
         lblOutput.Text = strMessage
@@ -236,7 +235,10 @@ Public Class frmFinalLab
     End Sub
 
     Private Sub mnuStory_Click(sender As Object, e As EventArgs) Handles mnuStory.Click
+        ' Create story form
         Dim frmForm As Form = New frmStory()
+
+        ' Show story form dialog
         frmForm.ShowDialog()
     End Sub
 

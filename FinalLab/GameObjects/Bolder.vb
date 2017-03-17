@@ -8,23 +8,25 @@ Public Class Bolder
     Private Const shtMinHealth as short = 4
     Private Const shtMaxHealth as short = 6
     
-    Private Dim gGame As frmFinalLab
+    Private Dim frmFinalLab As frmFinalLab
     private Dim shtHealth as short
 
-    Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
-        Me.gGame = gGame
+    Public Sub New(frmFinalLab As frmFinalLab, vecPosition As Vector2D)
+        Me.frmFinalLab = frmFinalLab
         Me.Position = vecPosition
 
         ' Make the health random
-        me.shtHealth = CShort(gGame.Random.Next(shtMinHealth, shtMaxHealth))
+        me.shtHealth = CShort(frmFinalLab.Random.Next(shtMinHealth, shtMaxHealth))
 
         ' Make the bolder a random bolder
-        Select Case gGame.Random.Next(1, 2)
+        Select Case frmFinalLab.Random.Next(1, 2)
             Case 1
                 bmpSprite = CType(Image.FromFile("Images/bolder1.jpg"), Bitmap)
             Case 2
                 bmpSprite = CType(Image.FromFile("Images/bolder2.jpg"), Bitmap)
         End Select
+        
+        me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)
     End Sub
 
     public ReadOnly Property Health As short
@@ -33,15 +35,15 @@ Public Class Bolder
         End Get
     End Property
     
-    Friend Sub Damage()
-        shtHealth -= 1S
+    Friend Sub Damage(Optional intDamage As Short = 1S)
+        shtHealth -= intDamage
 
         if shtHealth <= 0
             ' Increse game score
-            gGame.Score += intSCORE_WORTH
+            frmFinalLab.Score += intSCORE_WORTH
             
             ' Outputs message
-            gGame.OutputMessage("Bolder Destroyed! Score: " & Str(gGame.Score))
+            frmFinalLab.OutputMessage("Bolder Destroyed! Score: " & Str(frmFinalLab.Score))
 
             ' Delete the bolder
             Delete()
@@ -53,9 +55,9 @@ Public Class Bolder
 
         Me.Position.Y += dblSPEED
 
-        If (Collide(gGame.PlayerShip)) Then
+        If (Collide(frmFinalLab.PlayerShip)) Then
             Delete()
-            gGame.PlayerShip.Damage()
+            frmFinalLab.PlayerShip.Damage()
         End If
     End Sub
 End Class

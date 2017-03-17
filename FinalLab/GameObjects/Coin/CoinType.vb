@@ -19,10 +19,10 @@ Public Class CoinType
     Public ReadOnly Property Value As Integer
     Public ReadOnly Property SpriteName As String
 
-    Private Sub New(name As String, value As Integer, spriteName As String)
-        Me.Name = name
-        Me.Value = value
-        Me.SpriteName = spriteName
+    Private Sub New(strName As String, strValue As Integer, strSpriteName As String)
+        Me.Name = strName
+        Me.Value = strValue
+        Me.SpriteName = strSpriteName
     End Sub
 
     Private Shared Function GetRandomCoinType() As CoinType

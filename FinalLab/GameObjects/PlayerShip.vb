@@ -9,17 +9,17 @@ Public Class PlayerShip
     Private Dim dtLastShoot As DateTime
     Private Dim intMaxLives As Integer
     Private Dim intLives As Integer
-
-    Protected gGame As frmFinalLab
+    private dim frmFinalLab As frmFinalLab
     
-    Sub New(gGame As frmFinalLab)
-        me.gGame = gGame
+    Sub New(frmFinalLab As frmFinalLab)
         Me.Position = New Vector2D(250, 500)
         Me.bmpSprite = CType(Image.FromFile("Images/player_ship.jpg"), Bitmap)
+        me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)
 
         me.dtLastShoot = Now()
         Me.intLives = shtTOTAL_LIVES
         me.intMaxLives = shtTOTAL_LIVES
+        me.frmFinalLab = frmFinalLab
     End Sub
     
     Public ReadOnly Property LastShot as DateTime
@@ -50,7 +50,7 @@ Public Class PlayerShip
     End Sub
 
     Public Sub ForcecShoot()
-        Dim cbCannonBall As CannonBall = New CannonBall(gGame, Vector2D.Zero)
+        Dim cbCannonBall As CannonBall = New CannonBall(frmFinalLab, Vector2D.Zero)
 
         dtLastShoot = DateTime.Now()
 
@@ -65,7 +65,7 @@ Public Class PlayerShip
         cbCannonBall.Position.X -= cbCannonBall.Size.X / 2.0
 
         ' Spawn cannon ball
-        gGame.Spawn(cbCannonBall)
+        frmFinalLab.Spawn(cbCannonBall)
     End Sub
 
     Friend Sub Damage(Optional intDamage As Integer = 1)
@@ -74,22 +74,22 @@ Public Class PlayerShip
         
         If (intLives < 0) Then
             ' Output kill message
-            gGame.OutputMessage("Your ship was destroyed.")
+            frmFinalLab.OutputMessage("Your ship was destroyed.")
 
             ' Kill the ship
             Kill()
         else
             ' Output damage message
-            gGame.OutputMessage($"Your ship was damaged. You have {intLives} lives left.")
+            frmFinalLab.OutputMessage($"Your ship was damaged. You have {intLives} lives left.")
         End If
     End Sub
 
     Friend Sub Kill()
         ' End the game
-        gGame.EndGame()
+        frmFinalLab.EndGame()
         
         'Spawn Explosion object
-        gGame.Spawn(New Explosion(gGame, Position.Clone()))
+        frmFinalLab.Spawn(New Explosion(frmFinalLab, Position.Clone()))
 
         ' Delete the ship
         Delete()

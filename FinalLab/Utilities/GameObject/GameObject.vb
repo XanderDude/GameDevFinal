@@ -37,10 +37,7 @@ Public MustInherit Class GameObject
     End Property
 
     Public MustOverride Sub Update() Implements IGameObject.Update
-
-    Public Function Collide(testObject As IGameObject) As Boolean Implements IGameObject.Collide
-        Dim colAplhaColor = Color.FromArgb(255, 0, 250, 249)
-
+    Public Function Collide(goTestObject As IGameObject) As Boolean Implements IGameObject.Collide
         ' test rectangle collision
         Dim recFirsObject As Rectangle = New Rectangle(
             New Drawing.Point(CInt(Math.Round(Position.X)),
@@ -52,13 +49,13 @@ Public MustInherit Class GameObject
             New Size(CInt(Math.Round(Size.X)), CInt(Math.Round(Size.Y))))
 
         Dim vetSecondObjectOffset As Vector2D = New Vector2D(
-                        Position.X - testObject.Position.X,
-                        Position.Y - testObject.Position.Y)
+                        Position.X - goTestObject.Position.X,
+                        Position.Y - goTestObject.Position.Y)
 
         If (recFirsObject.IntersectsWith(recSecondObject)) Then
             ' Okay now test pixel collision
             Dim bmpFirstObject As Bitmap = bmpSprite
-            Dim bmpSecondObject As Bitmap = testObject.Sprite
+            Dim bmpSecondObject As Bitmap = goTestObject.Sprite
 
             ' Check if the first object is hitting the second object
             For x As Short = 0 To CShort(bmpFirstObject.Width - 1)
@@ -76,10 +73,10 @@ Public MustInherit Class GameObject
                     Dim pxlSecondPixel = bmpSecondObject.GetPixel(CInt(Math.Round(x + vetSecondObjectOffset.X)), CInt(Math.Round(y + vetSecondObjectOffset.Y)))
 
                     ' Continue if any of the pixels are the alpha color
-                    If (pxlFirstPixel = colAplhaColor) Then
+                    If (pxlFirstPixel = GlobalVariables.AplhaColor) Then
                         Continue For
                     End If
-                    If (pxlSecondPixel = colAplhaColor) Then
+                    If (pxlSecondPixel = GlobalVariables.AplhaColor) Then
                         Continue For
                     End If
 
@@ -91,11 +88,9 @@ Public MustInherit Class GameObject
 
         Return False
     End Function
-
     Public Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
         grabBuffer.DrawImageUnscaled(bmpSprite, CInt(Position.X), CInt(Position.Y), CInt(Size.X), CInt(Size.Y))
     End Sub
-
     Public Sub Delete() Implements IGameObject.Delete
         DeleteMe = True
     End Sub

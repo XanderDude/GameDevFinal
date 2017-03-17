@@ -107,6 +107,7 @@
     <Compile Include="GameObjects\Coin\CoinType.vb" />
     <Compile Include="GameObjects\Explosion.vb" />
     <Compile Include="GameObjects\PlayerShip.vb" />
+    <Compile Include="GlobalVariables.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -135,6 +136,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmStory.resx">
       <DependentUpon>frmStory.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
