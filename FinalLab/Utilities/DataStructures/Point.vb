@@ -1,4 +1,6 @@
-﻿Public Class Point
+﻿Imports FinalLab
+
+Public Class Point
     Property X As Integer
     Property Y As Integer
 

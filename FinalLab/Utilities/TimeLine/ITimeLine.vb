@@ -1,5 +1,5 @@
 ﻿Public Class TimeLine
-    Private _game As Game
+    Private _game As frmFinalLab
 
     Protected _firstEvent As TimeLineEvent
     Public Property FirstEvent As TimeLineEvent
@@ -21,11 +21,11 @@
         End Set
     End Property
 
-    Sub New()
-        _game = Game.GetGame()
+    Sub New(game As frmFinalLab)
+        Me._game =game
     End Sub
 
-    Sub New(game As Game, events As IEnumerable(Of TimeLineEvent))
+    Sub New(game As frmFinalLab, events As IEnumerable(Of TimeLineEvent))
         _game = game
 
         FirstEvent = events.LastOrDefault()

@@ -22,62 +22,86 @@ Partial Class frmFinalLab
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.lblInfo = New System.Windows.Forms.Label()
+        Me.pnlGame = New System.Windows.Forms.Panel()
         Me.lblOutput = New System.Windows.Forms.Label()
-        Me.lblStory = New System.Windows.Forms.Label()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.mnuMenu = New System.Windows.Forms.MenuStrip()
+        Me.mnuStart = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuStory = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuMenu.SuspendLayout
         Me.SuspendLayout
         '
-        'Panel1
+        'pnlGame
         '
-        Me.Panel1.Location = New System.Drawing.Point(12, 12)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(500, 800)
-        Me.Panel1.TabIndex = 0
-        '
-        'lblInfo
-        '
-        Me.lblInfo.Location = New System.Drawing.Point(518, 100)
-        Me.lblInfo.Name = "lblInfo"
-        Me.lblInfo.Size = New System.Drawing.Size(100, 23)
-        Me.lblInfo.TabIndex = 1
-        Me.lblInfo.Text = "Info"
+        Me.pnlGame.Location = New System.Drawing.Point(12, 33)
+        Me.pnlGame.Name = "pnlGame"
+        Me.pnlGame.Size = New System.Drawing.Size(500, 800)
+        Me.pnlGame.TabIndex = 0
         '
         'lblOutput
         '
         Me.lblOutput.BackColor = System.Drawing.Color.CadetBlue
         Me.lblOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblOutput.Location = New System.Drawing.Point(9, 826)
+        Me.lblOutput.Location = New System.Drawing.Point(12, 836)
         Me.lblOutput.Name = "lblOutput"
-        Me.lblOutput.Size = New System.Drawing.Size(503, 23)
+        Me.lblOutput.Size = New System.Drawing.Size(500, 23)
         Me.lblOutput.TabIndex = 1
         Me.lblOutput.Text = "Output"
         '
-        'lblStory
+        'MenuStrip1
         '
-        Me.lblStory.Location = New System.Drawing.Point(518, 12)
-        Me.lblStory.Name = "lblStory"
-        Me.lblStory.Size = New System.Drawing.Size(110, 88)
-        Me.lblStory.TabIndex = 1
-        Me.lblStory.Text = "Story"
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 24)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(522, 24)
+        Me.MenuStrip1.TabIndex = 2
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'mnuMenu
+        '
+        Me.mnuMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuStart, Me.mnuStory})
+        Me.mnuMenu.Location = New System.Drawing.Point(0, 0)
+        Me.mnuMenu.Name = "mnuMenu"
+        Me.mnuMenu.Size = New System.Drawing.Size(522, 24)
+        Me.mnuMenu.TabIndex = 3
+        Me.mnuMenu.Text = "MenuStrip"
+        '
+        'mnuStart
+        '
+        Me.mnuStart.Name = "mnuStart"
+        Me.mnuStart.Size = New System.Drawing.Size(43, 20)
+        Me.mnuStart.Text = "Start"
+        '
+        'mnuStory
+        '
+        Me.mnuStory.Name = "mnuStory"
+        Me.mnuStory.Size = New System.Drawing.Size(46, 20)
+        Me.mnuStory.Text = "Story"
         '
         'frmFinalLab
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(640, 858)
-        Me.Controls.Add(Me.lblStory)
+        Me.ClientSize = New System.Drawing.Size(522, 865)
         Me.Controls.Add(Me.lblOutput)
-        Me.Controls.Add(Me.lblInfo)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.pnlGame)
+        Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.mnuMenu)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MainMenuStrip = Me.MenuStrip1
+        Me.MaximizeBox = false
         Me.Name = "frmFinalLab"
         Me.Text = "Final Lab"
+        Me.mnuMenu.ResumeLayout(false)
+        Me.mnuMenu.PerformLayout
         Me.ResumeLayout(false)
+        Me.PerformLayout
 
 End Sub
 
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents lblInfo As Label
+    Friend WithEvents pnlGame As Panel
     Friend WithEvents lblOutput As Label
-    Friend WithEvents lblStory As Label
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents mnuMenu As MenuStrip
+    Friend WithEvents mnuStory As ToolStripMenuItem
+    Friend WithEvents mnuStart As ToolStripMenuItem
 End Class

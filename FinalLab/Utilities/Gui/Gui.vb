@@ -1,4 +1,4 @@
-﻿Public Class Gui
+﻿Public MustInherit Class Gui
     Implements IGui
 
     Dim backgroundImage As Bitmap

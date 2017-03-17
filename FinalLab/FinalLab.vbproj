@@ -13,6 +13,21 @@
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,6 +87,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\Bolder.vb" />
     <Compile Include="frmFinalLab.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -79,17 +95,17 @@
       <DependentUpon>frmFinalLab.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Game.vb" />
-    <Compile Include="GameObjects\Bullet.vb" />
+    <Compile Include="frmStory.Designer.vb">
+      <DependentUpon>frmStory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmStory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameObjects\CannonBall.vb" />
     <Compile Include="GameObjects\Coin\Coin.vb" />
     <Compile Include="GameObjects\Coin\CoinType.vb" />
     <Compile Include="GameObjects\Explosion.vb" />
-    <Compile Include="GameObjects\Player\EPlayerControle.vb" />
-    <Compile Include="GameObjects\Player\PlayerShip.vb" />
-    <Compile Include="GameObjects\Ship.vb" />
-    <Compile Include="GuiItems\Button.vb" />
-    <Compile Include="GuiItems\GuiImage.vb" />
-    <Compile Include="GuiItems\GuiScoreBord.vb" />
+    <Compile Include="GameObjects\PlayerShip.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -105,24 +121,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Utilities\Cursor\EMouseKey.vb" />
-    <Compile Include="Utilities\Cursor\Mouse.vb" />
-    <Compile Include="Utilities\DataManager.vb" />
     <Compile Include="Utilities\DataStructures\FloatSquare.vb" />
     <Compile Include="Utilities\DataStructures\intSquare.vb" />
     <Compile Include="Utilities\DataStructures\Point.vb" />
     <Compile Include="Utilities\DataStructures\Vector2D.vb" />
-    <Compile Include="Utilities\GameObject\EShape.vb" />
     <Compile Include="Utilities\GameObject\GameObject.vb" />
     <Compile Include="Utilities\GameObject\IGameObject.vb" />
-    <Compile Include="Utilities\Gui\Gui.vb" />
-    <Compile Include="Utilities\Gui\IGui.vb" />
-    <Compile Include="Utilities\HighscoreList\HighScoreList.vb" />
-    <Compile Include="Utilities\HighscoreList\Score.vb" />
-    <Compile Include="Utilities\Keybord\Keybord.vb" />
-    <Compile Include="Utilities\Keybord\EKeyboardKey.vb" />
-    <Compile Include="Utilities\Level.vb" />
-    <Compile Include="Utilities\SoundEffect.vb" />
     <Compile Include="Utilities\Sprite\AnimatedSprite.vb" />
     <Compile Include="Utilities\Sprite\Sprite.vb" />
     <Compile Include="Utilities\Sprite\SpriteSheet.vb" />
@@ -135,6 +139,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmFinalLab.resx">
       <DependentUpon>frmFinalLab.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStory.resx">
+      <DependentUpon>frmStory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -154,6 +161,73 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sound\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cball.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\coin.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\enemy_ship.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\explosion5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\player_ship.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\bolder1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\bolder2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\explosion3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\explosion1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\explosion2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\explosion6.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\explosion4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MediaPlayer">
+      <Guid>{22D6F304-B0F6-11D0-94AB-0080C74C7E95}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
