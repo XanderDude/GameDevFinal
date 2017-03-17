@@ -212,7 +212,7 @@ Public Class frmFinalLab
                     PlayerShip.Position.X -= dblSHIP_MOVE_SPEED
                 Case Keys.Right OR Keys.D
                     PlayerShip.Position.X += dblSHIP_MOVE_SPEED
-                Case Keys.Space Or Keys.Enter
+                Case Keys.Space OR Keys.Enter
                     PlayerShip.AtemptShoot()
                 Case Keys.P
                     boolIsGamePaused = Not boolIsGamePaused
