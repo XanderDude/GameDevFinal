@@ -29,13 +29,18 @@ Public Class PlayerShip
     End Property
     Public ReadOnly Property Lives As Integer
         Get
-            Return Lives
+            Return intLives
         End Get
     End Property
     Public ReadOnly Property MaxLives As Integer
         Get
-            Return MaxLives
+            Return intMaxLives
         End Get
+    End Property
+    Public ReadOnly Property Dead as Boolean
+    get
+        return Lives = 0
+    End Get
     End Property
     
     Public Overrides Sub Update()
@@ -72,7 +77,7 @@ Public Class PlayerShip
         ' Damage intDamage
         intLives -= intDamage
         
-        If (intLives < 0) Then
+        If (Dead) Then
             ' Output kill message
             frmFinalLab.OutputMessage("Your ship was destroyed.")
 
@@ -85,9 +90,6 @@ Public Class PlayerShip
     End Sub
 
     Friend Sub Kill()
-        ' End the game
-        frmFinalLab.EndGame()
-        
         'Spawn Explosion object
         frmFinalLab.Spawn(New Explosion(frmFinalLab, Position.Clone()))
 

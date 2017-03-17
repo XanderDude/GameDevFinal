@@ -109,7 +109,7 @@ Public Class frmFinalLab
         mnuStart.Enabled = true
 
         ' Clear the output text
-        OutputMessage("")
+        OutputMessage("You have lost.")
     end Sub
     Public sub PauseGame()
         If boolIsGameRunning 
@@ -136,6 +136,15 @@ Public Class frmFinalLab
             Draw(grabTemp)
             End If
 
+            ' Check if ship is dead..
+            If PlayerShip.Dead
+                ' Let explosions play if there are still explosions
+                if goGameObjects.All(function(goGameObject) TypeOf goGameObject isnot Explosion)
+                    ' End the game
+                    EndGame()
+                End If
+            End If
+            
             ' Sleep for 1 ms
             Thread.Sleep(1)
         End While
@@ -159,11 +168,11 @@ Public Class frmFinalLab
         Dim intMaxBolderSpawnTime As Integer = 2000
 
         If (dtNextBolderSpawn < Now()) Then
-            Dim intSpawnX = rndRandom.Next(0, 500)
+            Dim intSpawnX = rndRandom.Next(0, pnlGame.Width)
 
             Spawn(New Bolder(Me, New Vector2D(intSpawnX, 0)))
 
-            Dim intBolderSpawnTimeInMiliseconds = rndRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime)
+            Dim intBolderSpawnTimeInMiliseconds = rndRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime+1)
             dtNextBolderSpawn = DateTime.Now().AddMilliseconds(intBolderSpawnTimeInMiliseconds)
         End If
 

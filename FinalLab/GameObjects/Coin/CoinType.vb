@@ -26,7 +26,7 @@ Public Class CoinType
     End Sub
 
     Private Shared Function GetRandomCoinType() As CoinType
-        Select Case New Random().Next(1, 4)
+        Select Case New Random().Next(1, 5)
             Case 1
                 Return Bronse
             Case 2

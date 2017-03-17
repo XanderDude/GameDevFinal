@@ -13,7 +13,7 @@ Public MustInherit Class GameObject
         Get
             Return vetPosition
         End Get
-        Protected Set(value As Vector2D)
+        Protected Set
             vetPosition = value
         End Set
     End Property
@@ -27,17 +27,17 @@ Public MustInherit Class GameObject
             Return bmpSprite
         End Get
     End Property
-    Public Property DeleteMe As Boolean Implements IGameObject.DeleteMe
+    Public Overridable Property DeleteMe As Boolean Implements IGameObject.DeleteMe
         Get
             Return boolDeleteMe
         End Get
-        Protected Set(value As Boolean)
+        Protected Set
             boolDeleteMe = value
         End Set
     End Property
 
     Public MustOverride Sub Update() Implements IGameObject.Update
-    Public Function Collide(goTestObject As IGameObject) As Boolean Implements IGameObject.Collide
+    Public Overridable Function Collide(goTestObject As IGameObject) As Boolean Implements IGameObject.Collide
         ' test rectangle collision
         Dim recFirsObject As Rectangle = New Rectangle(
             New Drawing.Point(CInt(Math.Round(Position.X)),
@@ -88,10 +88,10 @@ Public MustInherit Class GameObject
 
         Return False
     End Function
-    Public Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
+    Public Overridable Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
         grabBuffer.DrawImageUnscaled(bmpSprite, CInt(Position.X), CInt(Position.Y), CInt(Size.X), CInt(Size.Y))
     End Sub
-    Public Sub Delete() Implements IGameObject.Delete
+    Public Overridable Sub Delete() Implements IGameObject.Delete
         DeleteMe = True
     End Sub
 End Class

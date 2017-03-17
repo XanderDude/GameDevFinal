@@ -133,6 +133,7 @@
   <ItemGroup>
     <EmbeddedResource Include="frmFinalLab.resx">
       <DependentUpon>frmFinalLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStory.resx">
       <DependentUpon>frmStory.vb</DependentUpon>

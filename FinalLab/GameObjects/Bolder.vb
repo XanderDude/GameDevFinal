@@ -3,29 +3,41 @@ Option Explicit On
 
 Public Class Bolder
     Inherits GameObject
-
-    Private Const intSCORE_WORTH as Integer = 5
+    
+    Private Const shtTOTAL_BOLDER_TYPES = 2
+    Private Const shtSCORE_WORTH as short = 5
     Private Const shtMinHealth as short = 4
     Private Const shtMaxHealth as short = 6
+
+    Private Shared Dim bmpBolderSprites as Bitmap()
     
     Private Dim frmFinalLab As frmFinalLab
     private Dim shtHealth as short
+
+    
 
     Public Sub New(frmFinalLab As frmFinalLab, vecPosition As Vector2D)
         Me.frmFinalLab = frmFinalLab
         Me.Position = vecPosition
 
         ' Make the health random
-        me.shtHealth = CShort(frmFinalLab.Random.Next(shtMinHealth, shtMaxHealth))
+        me.shtHealth = CShort(frmFinalLab.Random.Next(shtMinHealth, shtMaxHealth+1))
 
-        ' Make the bolder a random bolder
-        Select Case frmFinalLab.Random.Next(1, 2)
-            Case 1
-                bmpSprite = CType(Image.FromFile("Images/bolder1.jpg"), Bitmap)
-            Case 2
-                bmpSprite = CType(Image.FromFile("Images/bolder2.jpg"), Bitmap)
-        End Select
+        ' Set the bolder sprites
+        if bmpBolderSprites Is nothing
+            bmpBolderSprites = new Bitmap() {
+                CType(Image.FromFile("Images/bolder1.jpg"), Bitmap),
+                CType(Image.FromFile("Images/bolder2.jpg"), Bitmap)
+            }
+        End If
+
+        ' Pick a random bolder
+        Dim shtBolderSpriteNumber = CShort(frmFinalLab.Random.Next(1, bmpBolderSprites.Length + 1))
+
+        ' Set the sprite for the bolder
+        bmpSprite = bmpBolderSprites(shtBolderSpriteNumber - 1)
         
+        ' Make the sprite transparrent
         me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)
     End Sub
 
@@ -40,7 +52,7 @@ Public Class Bolder
 
         if shtHealth <= 0
             ' Increse game score
-            frmFinalLab.Score += intSCORE_WORTH
+            frmFinalLab.Score += shtSCORE_WORTH
             
             ' Outputs message
             frmFinalLab.OutputMessage("Bolder Destroyed! Score: " & Str(frmFinalLab.Score))
