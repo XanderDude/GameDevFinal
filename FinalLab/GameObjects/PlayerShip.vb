@@ -41,7 +41,7 @@ Public Class PlayerShip
     End Property
     Public ReadOnly Property Dead as Boolean
     get
-        return Lives = 0
+        return Lives <= 0
     End Get
     End Property
     
@@ -79,7 +79,12 @@ Public Class PlayerShip
         ' Damage intDamage
         intLives -= intDamage
         
-        If (Dead) Then
+        ' The ship can't have less than 0 lives! (This probably won't matter, but just incase)
+        if intLives < 0
+            intLives = 0
+        End If
+
+        If Dead Then
             ' Output kill message
             gGame.OutputMessage("Your ship was destroyed.")
 
