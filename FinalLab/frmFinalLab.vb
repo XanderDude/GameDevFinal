@@ -63,6 +63,9 @@ Public Class frmFinalLab
         ' Set the clickable menu to disabled
         mnuStart.Enabled = false
 
+        ' Unpause the game
+        boolIsGamePaused = false
+
         ' Spawn the player ship
         _playerShip = New PlayerShip(Me)
         Spawn(_playerShip)
@@ -70,7 +73,6 @@ Public Class frmFinalLab
         ' Set this to true
         boolIsGameRunning = true
     End sub
-    
     Public sub EndGame()
         ' Set game started to false
         boolIsGameRunning = false
@@ -86,6 +88,16 @@ Public Class frmFinalLab
         ' Set the clickable menu to enabled
         mnuStart.Enabled = true
     end Sub
+    Public sub PauseGame()
+        If boolIsGameRunning 
+            boolIsGamePaused = true
+        End If
+    End sub
+    Public sub UnpauseGame()
+        If boolIsGameRunning
+            boolIsGamePaused = false
+        End If
+    End sub
 
     Public sub LoopGame
         ' Get the graphics.. This is tempary until we fix the flickering
