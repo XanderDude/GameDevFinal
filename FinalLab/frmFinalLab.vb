@@ -204,17 +204,17 @@ Public Class frmFinalLab
         ' Do player movement stuff
         If Not boolIsGamePaused and boolIsGameRunning
             Select Case e.KeyData
-                Case Keys.Up OR Keys.W
+                Case Keys.UP, Keys.W
                     PlayerShip.Position.Y -= dblSHIP_MOVE_SPEED
-                Case Keys.Down OR keys.S
+                Case Keys.Down, keys.S
                     PlayerShip.Position.Y += dblSHIP_MOVE_SPEED
-                Case Keys.Left OR keys.A
+                Case Keys.Left, keys.A
                     PlayerShip.Position.X -= dblSHIP_MOVE_SPEED
-                Case Keys.Right OR Keys.D
+                Case Keys.Right, Keys.D
                     PlayerShip.Position.X += dblSHIP_MOVE_SPEED
-                Case Keys.Space OR Keys.Enter
+                Case Keys.Space, Keys.Enter
                     PlayerShip.AtemptShoot()
-                Case Keys.P
+                Case Keys.P, Keys.Escape
                     boolIsGamePaused = Not boolIsGamePaused
             End Select
 
