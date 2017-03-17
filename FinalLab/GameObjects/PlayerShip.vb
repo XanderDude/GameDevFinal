@@ -10,7 +10,8 @@ Public Class PlayerShip
     Private Dim intMaxLives As Integer
     Private Dim intLives As Integer
     Private Dim boolDead as Boolean
-    private dim gGame As frmFinalLab
+    private Dim gGame As frmFinalLab
+    Private Dim swPlayTimeTimer as Stopwatch
     
     Sub New(gGame As frmFinalLab)
         me.grabObjectBuffer = Graphics.FromImage(gGame.Buffer)
@@ -23,6 +24,9 @@ Public Class PlayerShip
         Me.intLives = shtTOTAL_LIVES
         me.intMaxLives = shtTOTAL_LIVES
         me.gGame = gGame
+
+        Me.swPlayTimeTimer = new Stopwatch()
+        Me.swPlayTimeTimer.Start()
     End Sub
     
     Public ReadOnly Property LastShot as DateTime
@@ -50,7 +54,7 @@ Public Class PlayerShip
     End Sub
     
     Public Sub AtemptShoot()
-        Dim tsTimePerShot As TimeSpan = TimeSpan.FromSeconds(0.25)
+        Dim tsTimePerShot As TimeSpan = TimeSpan.FromSeconds(0.2)
 
         If (dtLastShoot + tsTimePerShot < Now()) Then
             ForcecShoot()
@@ -81,12 +85,6 @@ Public Class PlayerShip
         intLives -= intDamage
         
         If intLives <= 0 Then
-            ' The ship can't have less than 0 lives! (This probably won't matter, but just incase)
-            intLives = 0
-
-            ' Output kill message
-            gGame.OutputMessage("Your ship was destroyed.")
-
             ' Kill the ship
             Kill()
         else
@@ -96,9 +94,20 @@ Public Class PlayerShip
     End Sub
 
     Friend Sub Kill()
-
         ' This is to prevent muliple explosion animations if the player dies more than once in a frame.
         If Not boolDead
+            ' Stop timer
+            swPlayTimeTimer.Stop()
+
+            ' Set lives to 0
+            intLives = 0
+            
+            ' Output kill message
+            Dim intMinutesLasted as Integer = CInt(Math.Floor(swPlayTimeTimer.Elapsed.TotalMinutes))
+            Dim shtSecondsLasted as Short = CShort(swPlayTimeTimer.Elapsed.Seconds)
+            Dim intScore as Integer = gGame.Score
+            gGame.OutputMessage($"Your ship was destroyed. You lasted {CStr(intMinutesLasted)} minutes and {shtSecondsLasted} seconds with a score of {intScore}!")
+
             'Spawn Explosion object
             gGame.Spawn(New Explosion(gGame, Position.Clone()))
 

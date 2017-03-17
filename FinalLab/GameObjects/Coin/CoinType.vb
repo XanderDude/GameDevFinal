@@ -4,11 +4,11 @@ Option Explicit On
 Imports Microsoft.VisualBasic.CompilerServices
 
 Public Class CoinType
-    Public Shared ReadOnly Unknown As CoinType = New CoinType("Unknown", 0, "Unknown")
-    Public Shared ReadOnly Bronse As CoinType = New CoinType("Bronse", 2, "Bronse")
-    Public Shared ReadOnly Silver As CoinType = New CoinType("Silver", 5, "Silver")
-    Public Shared ReadOnly Gold As CoinType = New CoinType("Gold", 25, "Gold")
-    Public Shared ReadOnly Platinum As CoinType = New CoinType("Platinum", 100, "Platinum")
+    Public Shared ReadOnly Unknown As CoinType = New CoinType("Unknown", 0, "coin")
+    Public Shared ReadOnly Bronse As CoinType = New CoinType("Bronse", 2, "coin1")
+    Public Shared ReadOnly Silver As CoinType = New CoinType("Silver", 5, "coin2")
+    Public Shared ReadOnly Gold As CoinType = New CoinType("Gold", 25, "coin3")
+    Public Shared ReadOnly Platinum As CoinType = New CoinType("Platinum", 100, "coin4")
     Public Shared ReadOnly Property Random() As CoinType
         Get
             Return GetRandomCoinType()

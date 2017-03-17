@@ -13,6 +13,11 @@ Public Class frmFinalLab
     private Dim dtNextBolderSpawn As Date
     private Dim graBG As Graphics
     private Dim bmpBuffer As Bitmap
+    Private Dim tsMakeGameHarderTick as DateTime' 
+    
+    ' Spawn Bolders (If I had more time, I would make a sperate class that spawns bolders
+    Private Dim intMinBolderSpawnTime As Integer = 200
+    Private Dim intMaxBolderSpawnTime As Integer = 2000
 
     ' Note: Pause and Running is different.
     ' Paused is the tracker for when the user presses P or pauses the game some other way
@@ -32,6 +37,7 @@ Public Class frmFinalLab
         boolIsGamePaused = False
         boolIsGameRunning = False
         intScore = 0
+        tsMakeGameHarderTick = Now()
     End Sub
     
     Public ReadOnly Property GameObjects As List(Of IGameObject)
@@ -112,9 +118,6 @@ Public Class frmFinalLab
         
         ' Set the clickable menu to enabled
         mnuStart.Enabled = true
-
-        ' Clear the output text
-        OutputMessage("You have lost.")
     end Sub
     Public sub PauseGame()
         If boolIsGameRunning 
@@ -159,6 +162,7 @@ Public Class frmFinalLab
         for i as Integer = 0 to goGameObjects.Count() - 1
             Dim goGameObject as IGameObject = goGameObjects(i)
 
+            ' Don't update things that are asking to be deleted
             If Not goGameObject.DeleteMe Then
                 goGameObject.Update()
             End If
@@ -167,10 +171,15 @@ Public Class frmFinalLab
         ' Remove game objects
         goGameObjects.RemoveAll(Function(goGameObject As IGameObject) goGameObject.DeleteMe)
 
-        ' Spawn Bolders
-        Dim intMinBolderSpawnTime As Integer = 200
-        Dim intMaxBolderSpawnTime As Integer = 2000
-
+        ' Check if it's time to make the game harder or not
+        if tsMakeGameHarderTick <= Now()
+            tsMakeGameHarderTick = Now().AddSeconds(1)
+            intMaxBolderSpawnTime -= 1
+            if(intMaxBolderSpawnTime < intMinBolderSpawnTime)
+                intMaxBolderSpawnTime = intMinBolderSpawnTime
+            End If
+        End If
+        
         If (dtNextBolderSpawn < Now()) Then
             ' Create the bolder
             Dim bBolder as Bolder = New Bolder(Me, New Vector2D(0, 0))
@@ -182,7 +191,8 @@ Public Class frmFinalLab
             Dim dblEdigeSpawnOffset as Double = (PlayerShip.Size.X/2) - (bBolder.Size.X/2)
 
             ' Move the bolder's X to a position that is fair to the player
-            bBolder.Position.X = Random.Next(CInt(dblEdigeSpawnOffset),CInt(pnlGame.Width - dblEdigeSpawnOffset))
+            'bBolder.Position.X = Random.Next(CInt(dblEdigeSpawnOffset),CInt(pnlGame.Width - dblEdigeSpawnOffset))
+            bBolder.Position.X = (Random.NextDouble() * (pnlGame.Width - dblEdigeSpawnOffset)) + dblEdigeSpawnOffset
 
             Dim intBolderSpawnTimeInMiliseconds = rndRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime+1)
             dtNextBolderSpawn = DateTime.Now().AddMilliseconds(intBolderSpawnTimeInMiliseconds)
@@ -192,17 +202,19 @@ Public Class frmFinalLab
         bgBackGround.Update()
     End Sub
     Public Sub Draw(grabBuffer As Graphics)
-        Try
-            ' Draw the background
-            bgBackGround.Draw()
-
-            ' Draw the game objects
-            For Each gameObject As GameObject In goGameObjects
-                gameObject.Draw()
-            Next
+        ' Draw the background
+        bgBackGround.Draw()
+        
+        ' Draw the game objects
+        For Each gameObject As GameObject In goGameObjects
+            gameObject.Draw()
+        Next
             
+        ' This is to just hide that annoying exception every time the game exits
+        Try
             graBG.DrawImageUnscaled(bmpBuffer, 0, 0)
         Catch ex As Exception
+
         End Try
     End Sub
 
@@ -221,7 +233,7 @@ Public Class frmFinalLab
     End Sub
 
     Private Sub frmFinalLab_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        Const dblSHIP_MOVE_SPEED As Double = 5
+        Const dblSHIP_MOVE_SPEED As Double = 10
         
         ' Do player movement stuff
         If Not boolIsGamePaused and boolIsGameRunning
