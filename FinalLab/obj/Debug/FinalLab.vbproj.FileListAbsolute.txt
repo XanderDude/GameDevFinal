@@ -30,3 +30,9 @@ C:\Users\sr244\OneDrive\Documents\GitHub\GameDevFinal\FinalLab\bin\Debug\Images\
 C:\Users\sr244\OneDrive\Documents\GitHub\GameDevFinal\FinalLab\bin\Debug\Images\coin2.jpg
 C:\Users\sr244\OneDrive\Documents\GitHub\GameDevFinal\FinalLab\bin\Debug\Images\coin3.jpg
 C:\Users\sr244\OneDrive\Documents\GitHub\GameDevFinal\FinalLab\bin\Debug\Images\coin4.jpg
+C:\Users\user\Documents\GitHub\GameDevFinal\FinalLab\bin\Debug\FinalLab.exe.config
+C:\Users\user\Documents\GitHub\GameDevFinal\FinalLab\obj\Debug\Interop.MediaPlayer.dll
+C:\Users\user\Documents\GitHub\GameDevFinal\FinalLab\obj\Debug\FinalLab.vbproj.ResolveComReference.cache
+C:\Users\user\Documents\GitHub\GameDevFinal\FinalLab\obj\Debug\FinalLab.exe
+C:\Users\user\Documents\GitHub\GameDevFinal\FinalLab\obj\Debug\FinalLab.xml
+C:\Users\user\Documents\GitHub\GameDevFinal\FinalLab\obj\Debug\FinalLab.pdb
