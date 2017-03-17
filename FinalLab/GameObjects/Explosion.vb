@@ -12,6 +12,8 @@ Public Class Explosion
     private Dim gGame As frmFinalLab
 
     Public Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+
         me.Position = vecPosition
         me.swStopwatch = new Stopwatch()
         me.swStopwatch.Start()

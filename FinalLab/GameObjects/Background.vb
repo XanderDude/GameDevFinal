@@ -9,6 +9,8 @@ Public Class Background
     Private Dim dblScrollPosition as Double
 
     Public Sub New(gGame As frmFinalLab)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+
         Me.gGame = gGame
         Me.dblScrollPosition = 0
 
@@ -24,11 +26,11 @@ Public Class Background
         End If
     End Sub
 
-    Public Overloads sub Draw(grabBuffer As Graphics)
+    Public Overloads sub Draw()
         ' Draw the sprite
-        grabBuffer.DrawImageUnscaled(bmpSprite, 0, CInt(Math.Round(dblScrollPosition)), CInt(Size.X), CInt(Size.Y))
+        grabObjectBuffer.DrawImageUnscaled(bmpSprite, 0, CInt(Math.Round(dblScrollPosition)), CInt(Size.X), CInt(Size.Y))
 
         ' Draw the sprite again at the top of the sprite so white space doesnt show
-        grabBuffer.DrawImageUnscaled(bmpSprite, 0, CInt(Math.Round(dblScrollPosition - gGame.pnlGame.Height)), CInt(Size.X), CInt(Size.Y))
+        grabObjectBuffer.DrawImageUnscaled(bmpSprite, 0, CInt(Math.Round(dblScrollPosition - gGame.pnlGame.Height)), CInt(Size.X), CInt(Size.Y))
     End sub
 End Class

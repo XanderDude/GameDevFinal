@@ -11,7 +11,6 @@ Public Class frmFinalLab
     private dim intScore as Integer
     Private Dim bgBackGround as Background
     private Dim dtNextBolderSpawn As Date
-    private Dim grabBuffer As Graphics
 
     ' Note: Pause and Running is different.
     ' Paused is the tracker for when the user presses P or pauses the game some other way
@@ -25,8 +24,7 @@ Public Class frmFinalLab
 
         ' Add any initialization after the InitializeComponent() call.
         goGameObjects = New List(Of IGameObject)
-        bgBackGround = new Background(me)
-
+        
         dtNextBolderSpawn = Date.MinValue
         rndRandom = New Random()
         boolIsGamePaused = False
@@ -149,7 +147,6 @@ Public Class frmFinalLab
             Thread.Sleep(1)
         End While
     End sub
-
     Public Overloads Sub Update()
         ' Update other game objects
         for i as Integer = 0 to goGameObjects.Count() - 1
@@ -179,19 +176,23 @@ Public Class frmFinalLab
         ' Update the background
         bgBackGround.Update()
     End Sub
-
     Public Sub Draw(grabBuffer As Graphics)
         Try
             ' Clear the graphics
-            grabBuffer.Clear(Color.White)
+            'grabBuffer.Clear(Color.White)
 
             ' Draw the background
-            bgBackGround.Draw(grabBuffer)
-            
+            bgBackGround.Draw()
+
             ' Draw the game objects
             For Each gameObject As GameObject In goGameObjects
-                gameObject.Draw(grabBuffer)
+                gameObject.Draw()
             Next
+
+            
+            graBG.DrawImageUnscaled(bmpBuffer, 0, 0)
+            
+            
         Catch ex As Exception
         End Try
     End Sub
@@ -203,8 +204,14 @@ Public Class frmFinalLab
         lblOutput.Text = strMessage
     End sub
     
+    Dim graBG As Graphics
+    Public Dim bmpBuffer As Bitmap
+
     Private Sub frmFinalLab_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        grabBuffer = pnlGame.CreateGraphics()
+        bmpBuffer = New Bitmap(pnlGame.Width, pnlGame.Height)
+        graBG = pnlGame.CreateGraphics
+
+        bgBackGround = new Background(me)
     End Sub
 
     Private Sub frmFinalLab_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown

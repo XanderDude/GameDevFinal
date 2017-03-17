@@ -12,6 +12,8 @@ Public Class PlayerShip
     private dim gGame As frmFinalLab
     
     Sub New(gGame As frmFinalLab)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+
         Me.Position = New Vector2D(250, 500)
         Me.bmpSprite = CType(Image.FromFile("Images/player_ship.jpg"), Bitmap)
         me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)

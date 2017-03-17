@@ -9,6 +9,8 @@ Public Class CannonBall
     Private Dim gGame As frmFinalLab
 
     Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        me.grabObjectBuffer = Graphics.FromImage(gGame.bmpBuffer)
+
         Me.gGame = gGame
         Me.Position = vecPosition
 
