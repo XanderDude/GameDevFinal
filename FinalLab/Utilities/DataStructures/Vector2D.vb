@@ -5,17 +5,34 @@
         End Get
     End Property
 
-    Property X As Double
-    Property Y As Double
+    private dim dblX As Double
+    private dim dblY As Double
 
     Public Sub New()
         Me.X = 0
         Me.Y = 0
     End Sub
-    Public Sub New(x As Double, y As Double)
-        Me.X = x
-        Me.Y = y
+    Public Sub New(dblX As Double, dblY As Double)
+        Me.X = dblX
+        Me.Y = dblY
     End Sub
+
+    Public Property X as Double
+        get
+                Return dblX
+        End Get
+        Set
+            dblX = value
+        End Set
+    End Property
+    Public Property Y as Double
+        get
+                Return dblY
+        End Get
+        Set
+            dblY = value
+        End Set
+    End Property
 
     Public Function Clone() As Vector2D
         Return New Vector2D(X, Y)
@@ -35,7 +52,7 @@
     Public Overrides Function ToString() As String
         Return $"({X},{Y})"
     End Function
-
+    
     Public Shared Operator *(ByVal first As Vector2D, ByVal second As Vector2D) As Vector2D
         Return New Vector2D(first.X * second.X, first.Y * second.Y)
     End Operator
@@ -88,7 +105,7 @@
             Return True
         End If
 
-        Return first.X = second.X & first.Y = second.Y
+        Return (first.X = second.X) & (first.Y = second.Y)
     End Operator
     Public Shared Operator <>(ByVal first As Vector2D, ByVal second As Vector2D)
         If (first Is Nothing Or second Is Nothing) Then
@@ -99,7 +116,7 @@
             End If
         End If
 
-        Return first.X <> second.X & first.Y <> second.Y
+        Return (first.X <> second.X) & (first.Y <> second.Y)
     End Operator
 
     Public Shared Widening Operator CType(point As Point) As Vector2D

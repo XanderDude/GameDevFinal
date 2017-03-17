@@ -1,14 +1,67 @@
 ﻿Public Class FloatSquare
-    Public X As Double
-    Public Y As Double
-    Public Height As Double
-    Public Width As Double
+    private dim dblX As Double
+    private dim dblY As Double
+    private dim dblHeight As Double
+    private dim dblWidth As Double
+    
+    Public Sub New()
+        Me.X = 0
+        Me.Y = 0
+        Me.Height = 0
+        Me.Width = 0
+    End Sub
+    Public Sub New(dblX As Double, dblY As Double, dblHeight As Double, dblWidth As Double)
+        Me.X = dblx
+        Me.Y = dbly
+        Me.Height = dblHeight
+        Me.Width = dblWidth
+    End Sub
+    Public Sub New(vetPosition As Vector2D, vetSize As Vector2D)
+        Me.Position = vetPosition
+        Me.Size = vetSize
+    End Sub
+    Public Sub New(pntPosition As Point, pntSize As Point)
+        Me.Position = pntPosition
+        Me.Size = pntSize
+    End Sub
 
+    Public Property X As Double
+        get
+            return dblX
+        End Get
+        Set
+            dblX = value
+        End Set
+    End Property
+    Public Property Y As Double
+        get
+            return dblY
+        End Get
+        Set
+            dblY = value
+        End Set
+    End Property
+    Public Property Height As Double
+        get
+            return dblHeight
+        End Get
+        Set
+            dblHeight = value
+        End Set
+    End Property
+    Public Property Width As Double
+        get
+            return dblWidth
+        End Get
+        Set
+            dblWidth = value
+        End Set
+    End Property
     Public Property Position As Vector2D
         Get
             Return New Vector2D(X, Y)
         End Get
-        Set(value As Vector2D)
+        Set
             X = value.X
             Y = value.Y
         End Set
@@ -17,32 +70,11 @@
         Get
             Return New Vector2D(Height, Width)
         End Get
-        Set(value As Vector2D)
+        Set
             Height = value.X
             Width = value.Y
         End Set
     End Property
-
-    Public Sub New()
-        Me.X = 0
-        Me.Y = 0
-        Me.Height = 0
-        Me.Width = 0
-    End Sub
-    Public Sub New(x As Double, y As Double, height As Double, width As Double)
-        Me.X = x
-        Me.Y = y
-        Me.Height = height
-        Me.Width = width
-    End Sub
-    Public Sub New(position As Vector2D, size As Vector2D)
-        Me.Position = position
-        Me.Size = size
-    End Sub
-    Public Sub New(position As Point, size As Point)
-        Me.Position = position
-        Me.Size = size
-    End Sub
 
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me = obj

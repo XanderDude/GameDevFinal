@@ -1,24 +1,27 @@
-﻿Public Class Coin
+﻿Option Strict On
+Option Explicit On
+
+Public Class Coin
     Inherits GameObject
-    Private game As frmFinalLab = Nothing
 
-    Public ReadOnly CoinType As CoinType = CoinType.Unknown
-
-    Private _animatedSprite As AnimatedSprite
-    Public Sub New(game As frmFinalLab)
-        me.game = game
+    Private Dim ReadOnly ctCoinType As CoinType = CoinType.Unknown
+    Private Dim gGame As frmFinalLab = Nothing
+    
+    Public Sub New(gGame As frmFinalLab, ctCoinType As CoinType)
+        me.gGame = gGame
+        Me.ctCoinType = ctCoinType
     End Sub
+    
+    Public ReadOnly Property CoinType As CoinType
+    get
+        return ctCoinType
+    End Get
+    End Property
 
     Public Overrides Sub Update()
-        If (Me.Collide(game.PlayerShip)) Then
-            game.Money += CoinType.Value
+        If (Me.Collide(gGame.PlayerShip)) Then
+            gGame.Money += ctCoinType.Value
             Me.Delete()
         End If
-    End Sub
-
-    Public Sub New(coinType As CoinType)
-        Me.CoinType = coinType
-
-        _animatedSprite.ChangeSprite(coinType.SpriteName)
     End Sub
 End Class

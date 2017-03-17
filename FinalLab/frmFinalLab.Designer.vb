@@ -87,6 +87,7 @@ Partial Class frmFinalLab
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.mnuMenu)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.KeyPreview = true
         Me.MainMenuStrip = Me.MenuStrip1
         Me.MaximizeBox = false
         Me.Name = "frmFinalLab"

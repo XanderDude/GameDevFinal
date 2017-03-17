@@ -1,91 +1,92 @@
-﻿Imports FinalLab
+﻿Option Strict On
+Option Explicit On
 
 Public MustInherit Class GameObject
     Implements IGameObject
+    
+    Private dim vetPosition As Vector2D
+    Private dim boolDeleteMe As Boolean
+    Protected dim grabObjectBuffer As Graphics
+    Protected dim bmpSprite As Bitmap
 
-    Private ReadOnly Property Sprite As Bitmap Implements IGameObject.Sprite
+    Public Property Position As Vector2D Implements IGameObject.Position
+        Get
+            Return vetPosition
+        End Get
+        Protected Set
+            vetPosition = value
+        End Set
+    End Property
+    Public ReadOnly Property Size As Point Implements IGameObject.Size
+        Get
+            Return New Point(bmpSprite.Width, bmpSprite.Height)
+        End Get
+    End Property
+    Protected ReadOnly Property Sprite As Bitmap Implements IGameObject.Sprite
         Get
             Return bmpSprite
         End Get
     End Property
-
-    Private _position As Vector2D
-    Public Property Position As Vector2D Implements IGameObject.Position
+    Public Overridable Property DeleteMe As Boolean Implements IGameObject.DeleteMe
         Get
-            Return _position
+            Return boolDeleteMe
         End Get
-        Protected Set(value As Vector2D)
-            _position = value
+        Protected Set
+            boolDeleteMe = value
         End Set
     End Property
-
-    Private _size As Vector2D
-    Public ReadOnly Property Size As Vector2D Implements IGameObject.Size
-        Get
-            Return New Vector2D(bmpSprite.Width, bmpSprite.Height)
-        End Get
-    End Property
-
-    Private _acell As Vector2D
-    Public Property Acell As Vector2D Implements IGameObject.Acell
-        Get
-            Return _acell
-        End Get
-        Protected Set(value As Vector2D)
-            _acell = value
-        End Set
-    End Property
-
-    Private _deleteMe As Boolean
-    Public Property DeleteMe As Boolean Implements IGameObject.DeleteMe
-        Get
-            Return _deleteMe
-        End Get
-        Protected Set(value As Boolean)
-            _deleteMe = value
-        End Set
-    End Property
-
-    Protected grabObjectBuffer As Graphics
-    Protected bmpSprite As Bitmap
 
     Public MustOverride Sub Update() Implements IGameObject.Update
-
-    Public Function Collide(testObject As IGameObject) As Boolean Implements IGameObject.Collide
-        Dim colAplhaColor = Color.FromArgb(255, 0, 250, 249)
-
+    Public Overridable Function Collide(goTestObject As IGameObject) As Boolean Implements IGameObject.Collide
         ' test rectangle collision
-        Dim recFirsObject As Rectangle = New Rectangle(New Drawing.Point(Position.X, Position.Y), New Size(Size.X, Size.Y))
-        Dim recSecondObject As Rectangle = New Rectangle(New Drawing.Point(Position.X, Position.Y), New Size(Size.X, Size.Y))
-        Dim vetSecondObjectOffset As Vector2D = New Vector2D(
-                        Position.X - testObject.Position.X,
-                        Position.Y - testObject.Position.Y)
 
+        ' Get the pixel rectangle of each object
+        Dim recFirsObject As Rectangle = New Rectangle(
+            New Drawing.Point(
+                CInt(Math.Round(Position.X)), 
+                CInt(Math.Round(Position.Y))), 
+            New Size(Size.X, Size.Y))
+
+        Dim recSecondObject As Rectangle = New Rectangle(
+            New Drawing.Point(
+                CInt(Math.Round(goTestObject.Position.X)), 
+                cint(Math.Round(goTestObject.Position.Y))), 
+            new Size(goTestObject.Size.X, goTestObject.Size.Y))
+
+        ' Get the offset the second object is from the second
+        Dim pntDistanceFromFirstObjectToSecond As Point = New Point(
+                        recSecondObject.X - recFirsObject.X,
+                        recSecondObject.Y - recFirsObject.Y)
+
+        ' Do Rectangle hit detection
         If (recFirsObject.IntersectsWith(recSecondObject)) Then
+            ' Somewhere along I broke the pixel hit detection :(
+            return true
+            
             ' Okay now test pixel collision
             Dim bmpFirstObject As Bitmap = bmpSprite
-            Dim bmpSecondObject As Bitmap = testObject.Sprite
+            Dim bmpSecondObject As Bitmap = goTestObject.Sprite
 
             ' Check if the first object is hitting the second object
-            For x As Short = 0 To bmpFirstObject.Width - 1
-                For y As Short = 0 To bmpFirstObject.Height - 1
+            For x As Short = 0 To CShort(bmpFirstObject.Width - 1)
+                For y As Short = 0 To CShort(bmpFirstObject.Height - 1)
                     ' Check if the pixel could even be hitting the second object's pixel
-                    If (x + vetSecondObjectOffset.X < 0 Or x + vetSecondObjectOffset.X > bmpSecondObject.Width - 1) Then
+                    If (x + pntDistanceFromFirstObjectToSecond.X < 0 Or x + pntDistanceFromFirstObjectToSecond.X > bmpSecondObject.Width - 1) Then
                         Continue For
                     End If
-                    If (y + vetSecondObjectOffset.Y < 0 Or y + vetSecondObjectOffset.Y > bmpSecondObject.Height - 1) Then
+                    If (y + pntDistanceFromFirstObjectToSecond.Y < 0 Or y + pntDistanceFromFirstObjectToSecond.Y > bmpSecondObject.Height - 1) Then
                         Continue For
                     End If
 
                     ' Get the colors of the two pixels that are colliding
                     Dim pxlFirstPixel = bmpFirstObject.GetPixel(x, y)
-                    Dim pxlSecondPixel = bmpSecondObject.GetPixel(x + vetSecondObjectOffset.X, y + vetSecondObjectOffset.Y)
+                    Dim pxlSecondPixel = bmpSecondObject.GetPixel(x + pntDistanceFromFirstObjectToSecond.X, y + pntDistanceFromFirstObjectToSecond.Y)
 
                     ' Continue if any of the pixels are the alpha color
-                    If (pxlFirstPixel = colAplhaColor) Then
+                    If (pxlFirstPixel = GlobalVariables.AplhaColor OR pxlSecondPixel.A = 0) Then
                         Continue For
                     End If
-                    If (pxlSecondPixel = colAplhaColor) Then
+                    If (pxlSecondPixel = GlobalVariables.AplhaColor OR pxlSecondPixel.A = 0) Then
                         Continue For
                     End If
 
@@ -97,12 +98,10 @@ Public MustInherit Class GameObject
 
         Return False
     End Function
-
-    Public Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
-        grabBuffer.DrawImage(bmpSprite, CSng(Position.X), CSng(Position.Y), CSng(Size.X), CSng(Size.Y))
+    Public Overridable Sub Draw(grabBuffer As Graphics) Implements IGameObject.Draw
+        grabBuffer.DrawImageUnscaled(bmpSprite, CInt(Position.X), CInt(Position.Y), CInt(Size.X), CInt(Size.Y))
     End Sub
-
-    Public Sub Delete() Implements IGameObject.Delete
+    Public Overridable Sub Delete() Implements IGameObject.Delete
         DeleteMe = True
     End Sub
 End Class

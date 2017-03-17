@@ -1,54 +1,51 @@
-﻿Public Class PlayerShip
+﻿Option Strict On
+Option Explicit On
+
+Public Class PlayerShip
     Inherits GameObject
+    
+    Private Const shtTOTAL_LIVES as short = 5
 
-    Dim dtLastShoot As DateTime
-    Dim _maxLives As Integer = -1
-    Public ReadOnly Property MaxLives As Integer
-        Get
-            Return _maxLives
-        End Get
+    Private Dim dtLastShoot As DateTime
+    Private Dim intMaxLives As Integer
+    Private Dim intLives As Integer
+    private dim gGame As frmFinalLab
+    
+    Sub New(gGame As frmFinalLab)
+        Me.Position = New Vector2D(250, 500)
+        Me.bmpSprite = CType(Image.FromFile("Images/player_ship.jpg"), Bitmap)
+        me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)
+
+        me.dtLastShoot = Now()
+        Me.intLives = shtTOTAL_LIVES
+        me.intMaxLives = shtTOTAL_LIVES
+        me.gGame = gGame
+    End Sub
+    
+    Public ReadOnly Property LastShot as DateTime
+    get
+            return dtLastShoot
+    End Get
     End Property
-
-    Dim _lives As Integer = -1
     Public ReadOnly Property Lives As Integer
         Get
-            Return _lives
+            Return intLives
         End Get
     End Property
-
-    Protected gGame As frmFinalLab
+    Public ReadOnly Property MaxLives As Integer
+        Get
+            Return intMaxLives
+        End Get
+    End Property
+    Public ReadOnly Property Dead as Boolean
+    get
+        return Lives = 0
+    End Get
+    End Property
     
-    Friend Sub Damage(Optional lives As Integer = 1)
-        _lives -= lives
-        If (_lives < 0) Then
-            Kill()
-            gGame.EndGame()
-            gGame.Spawn(new Explosion(gGame, Position))
-        End If
-    End Sub
-
-    Sub New(gGame As frmFinalLab)
-        Const shtLIVES as short = 5
-        me.gGame = gGame
-        Me.Position = New Vector2D(250, 500)
-        Me.bmpSprite = Image.FromFile("Images/player_ship.jpg")
-        Me._lives = shtLIVES
-        me._maxLives = shtLIVES
-
-        dtLastShoot = Now()
-    End Sub
-
     Public Overrides Sub Update()
     End Sub
-
-    Friend Sub Kill()
-        'Spawn Explosion object
-        gGame.Spawn(New Explosion(gGame, Position.Clone()))
-
-        ' Delete the ship
-        Delete()
-    End Sub
-
+    
     Public Sub AtemptShoot()
         Dim tsTimePerShot As TimeSpan = TimeSpan.FromSeconds(0.25)
 
@@ -74,5 +71,29 @@
 
         ' Spawn cannon ball
         gGame.Spawn(cbCannonBall)
+    End Sub
+
+    Friend Sub Damage(Optional intDamage As Integer = 1)
+        ' Damage intDamage
+        intLives -= intDamage
+        
+        If (Dead) Then
+            ' Output kill message
+            gGame.OutputMessage("Your ship was destroyed.")
+
+            ' Kill the ship
+            Kill()
+        else
+            ' Output damage message
+            gGame.OutputMessage($"Your ship was damaged. You have {intLives} lives left.")
+        End If
+    End Sub
+
+    Friend Sub Kill()
+        'Spawn Explosion object
+        gGame.Spawn(New Explosion(gGame, Position.Clone()))
+
+        ' Delete the ship
+        Delete()
     End Sub
 End Class

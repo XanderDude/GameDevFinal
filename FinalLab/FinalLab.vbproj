@@ -87,6 +87,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\Background.vb" />
     <Compile Include="GameObjects\Bolder.vb" />
     <Compile Include="frmFinalLab.vb">
       <SubType>Form</SubType>
@@ -106,6 +107,7 @@
     <Compile Include="GameObjects\Coin\CoinType.vb" />
     <Compile Include="GameObjects\Explosion.vb" />
     <Compile Include="GameObjects\PlayerShip.vb" />
+    <Compile Include="GlobalVariables.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -127,21 +129,15 @@
     <Compile Include="Utilities\DataStructures\Vector2D.vb" />
     <Compile Include="Utilities\GameObject\GameObject.vb" />
     <Compile Include="Utilities\GameObject\IGameObject.vb" />
-    <Compile Include="Utilities\Sprite\AnimatedSprite.vb" />
-    <Compile Include="Utilities\Sprite\Sprite.vb" />
-    <Compile Include="Utilities\Sprite\SpriteSheet.vb" />
-    <Compile Include="Utilities\TimeLine\ITimeLine.vb" />
-    <Compile Include="Utilities\TimeLine\ITimeLineEvent.vb" />
-    <Compile Include="Utilities\TimeLine\ShipSpawnEvent.vb" />
-    <Compile Include="Utilities\TimeLine\TimeLineEvent.vb" />
-    <Compile Include="Utilities\TimeLine\TimmedEvent.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmFinalLab.resx">
       <DependentUpon>frmFinalLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStory.resx">
       <DependentUpon>frmStory.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

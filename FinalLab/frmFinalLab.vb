@@ -1,40 +1,17 @@
-﻿Imports System.Threading
+﻿Option Strict On
+Option Explicit On
+
+Imports System.Threading
 
 Public Class frmFinalLab
-    Dim grabBuffer As Graphics
-
-    Public Property Money As Integer
-
-    Dim _playerShip As PlayerShip
-    Public Property PlayerShip As PlayerShip
-        Get
-            Return _playerShip
-        End Get
-        Private Set(value As PlayerShip)
-            _playerShip = PlayerShip
-        End Set
-    End Property
-
-    Friend ReadOnly Property Random As Random
-        Get
-            Return rngRandom
-        End Get
-    End Property
-
-    Public ReadOnly Property GameObjects
-        Get
-            Return _gameObjects
-        End Get
-    End Property
-
-    Private _gameObjects As List(Of IGameObject)
-
-    Friend Sub Spawn(spawnObject As IGameObject)
-        gameObjects.Add(spawnObject)
-    End Sub
-    
-    Dim dtNextBolderSpawn As Date
-    Dim rngRandom As Random
+    private Dim rndRandom As Random
+    Private Dim goGameObjects As List(Of IGameObject)
+    private Dim psPlayerShip As PlayerShip
+    private Dim intMoney as Integer
+    private dim intScore as Integer
+    Private Dim bgBackGround as Background
+    private Dim dtNextBolderSpawn As Date
+    private Dim grabBuffer As Graphics
 
     ' Note: Pause and Running is different.
     ' Paused is the tracker for when the user presses P or pauses the game some other way
@@ -47,13 +24,53 @@ Public Class frmFinalLab
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        _gameObjects = New List(Of IGameObject)
+        goGameObjects = New List(Of IGameObject)
+        bgBackGround = new Background(me)
 
         dtNextBolderSpawn = Date.MinValue
-        rngRandom = New Random()
+        rndRandom = New Random()
         boolIsGamePaused = False
         boolIsGameRunning = False
+        intScore = 0
     End Sub
+    
+    Public ReadOnly Property GameObjects As List(Of IGameObject)
+        Get
+            Return goGameObjects
+        End Get
+    End Property
+    Public Property PlayerShip As PlayerShip
+        Get
+            Return psPlayerShip
+        End Get
+        Private Set
+            psPlayerShip = PlayerShip
+        End Set
+    End Property
+    Public Property Money As Integer
+        get
+            return intMoney
+        End Get
+        Set
+            intMoney = value
+        End Set
+    End Property
+    Public Property Score as Integer
+        set
+            intScore = value
+            if intScore < 0
+                intScore = 0
+            End If
+        End Set
+        Get
+            return intScore
+        End Get
+    End Property
+    Friend ReadOnly Property Random As Random
+        Get
+            Return rndRandom
+        End Get
+    End Property
 
     Public sub StartGame()
         ' Stop the game first so we don't run into any bugs
@@ -67,26 +84,32 @@ Public Class frmFinalLab
         boolIsGamePaused = false
 
         ' Spawn the player ship
-        _playerShip = New PlayerShip(Me)
-        Spawn(_playerShip)
+        psPlayerShip = New PlayerShip(Me)
+        Spawn(psPlayerShip)
 
         ' Set this to true
         boolIsGameRunning = true
+
+        ' Set the output text to this
+        OutputMessage("Game Started.")
     End sub
     Public sub EndGame()
         ' Set game started to false
         boolIsGameRunning = false
 
         ' Remove player ship
-        _playerShip = Nothing
+        psPlayerShip = Nothing
 
         ' Remove all game objects
-        for each goGameObject as GameObject in _gameObjects
+        for each goGameObject as GameObject in goGameObjects
             goGameObject.Delete()
         Next
         
         ' Set the clickable menu to enabled
         mnuStart.Enabled = true
+
+        ' Clear the output text
+        OutputMessage("You have lost.")
     end Sub
     Public sub PauseGame()
         If boolIsGameRunning 
@@ -113,6 +136,15 @@ Public Class frmFinalLab
             Draw(grabTemp)
             End If
 
+            ' Check if ship is dead..
+            If PlayerShip.Dead
+                ' Let explosions play if there are still explosions
+                if goGameObjects.All(function(goGameObject) TypeOf goGameObject isnot Explosion)
+                    ' End the game
+                    EndGame()
+                End If
+            End If
+            
             ' Sleep for 1 ms
             Thread.Sleep(1)
         End While
@@ -120,8 +152,8 @@ Public Class frmFinalLab
 
     Public Overloads Sub Update()
         ' Update other game objects
-        for i as Integer = 0 to _gameObjects.Count() - 1
-            Dim goGameObject as IGameObject = _gameObjects(i)
+        for i as Integer = 0 to goGameObjects.Count() - 1
+            Dim goGameObject as IGameObject = goGameObjects(i)
 
             If Not goGameObject.DeleteMe Then
                 goGameObject.Update()
@@ -129,34 +161,47 @@ Public Class frmFinalLab
         Next
         
         ' Remove game objects
-        _gameObjects.RemoveAll(Function(goGameObject As IGameObject) goGameObject.DeleteMe)
+        goGameObjects.RemoveAll(Function(goGameObject As IGameObject) goGameObject.DeleteMe)
 
         ' Spawn Bolders
         Dim intMinBolderSpawnTime As Integer = 200
         Dim intMaxBolderSpawnTime As Integer = 2000
 
         If (dtNextBolderSpawn < Now()) Then
-            Dim intSpawnX = rngRandom.Next(0, 500)
+            Dim intSpawnX = rndRandom.Next(0, pnlGame.Width)
 
             Spawn(New Bolder(Me, New Vector2D(intSpawnX, 0)))
 
-            Dim intBolderSpawnTimeInMiliseconds = rngRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime)
+            Dim intBolderSpawnTimeInMiliseconds = rndRandom.Next(intMaxBolderSpawnTime, intMaxBolderSpawnTime+1)
             dtNextBolderSpawn = DateTime.Now().AddMilliseconds(intBolderSpawnTimeInMiliseconds)
         End If
+
+        ' Update the background
+        bgBackGround.Update()
     End Sub
 
     Public Sub Draw(grabBuffer As Graphics)
         Try
-            ' Clear graphics
+            ' Clear the graphics
             grabBuffer.Clear(Color.White)
+
+            ' Draw the background
+            bgBackGround.Draw(grabBuffer)
             
             ' Draw the game objects
-            For Each gameObject As GameObject In gameObjects
+            For Each gameObject As GameObject In goGameObjects
                 gameObject.Draw(grabBuffer)
             Next
         Catch ex As Exception
         End Try
     End Sub
+
+    Public Sub Spawn(goSpawnObject As IGameObject)
+        gameObjects.Add(goSpawnObject)
+    End Sub
+    Public sub OutputMessage(strMessage As string)
+        lblOutput.Text = strMessage
+    End sub
     
     Private Sub frmFinalLab_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         grabBuffer = pnlGame.CreateGraphics()
@@ -165,22 +210,24 @@ Public Class frmFinalLab
     Private Sub frmFinalLab_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Const dblSHIP_MOVE_SPEED As Double = 5
         
+        ' Do player movement stuff
         If Not boolIsGamePaused and boolIsGameRunning
             Select Case e.KeyData
-                Case Keys.Up
+                Case Keys.UP, Keys.W
                     PlayerShip.Position.Y -= dblSHIP_MOVE_SPEED
-                Case Keys.Down
+                Case Keys.Down, keys.S
                     PlayerShip.Position.Y += dblSHIP_MOVE_SPEED
-                Case Keys.Left
+                Case Keys.Left, keys.A
                     PlayerShip.Position.X -= dblSHIP_MOVE_SPEED
-                Case Keys.Right
+                Case Keys.Right, Keys.D
                     PlayerShip.Position.X += dblSHIP_MOVE_SPEED
-                Case Keys.Space
+                Case Keys.Space, Keys.Enter
                     PlayerShip.AtemptShoot()
-                Case Keys.P
+                Case Keys.P, Keys.Escape
                     boolIsGamePaused = Not boolIsGamePaused
             End Select
 
+            ' Make sure the player doesn't reach the bounderies
             If PlayerShip.Position.X < 0 Then
                 PlayerShip.Position.X = 0
             End If
@@ -197,7 +244,10 @@ Public Class frmFinalLab
     End Sub
 
     Private Sub mnuStory_Click(sender As Object, e As EventArgs) Handles mnuStory.Click
+        ' Create story form
         Dim frmForm As Form = New frmStory()
+
+        ' Show story form dialog
         frmForm.ShowDialog()
     End Sub
 

@@ -1,21 +1,43 @@
-﻿Public Class CannonBall
+﻿Option Strict On
+Option Explicit On
+
+Public Class CannonBall
     Inherits GameObject
-
-    Property Damage As Integer
     
-    Dim _game As frmFinalLab
+    Private Const dblSPEED As Double = 3.5
 
-    Sub New(game As frmFinalLab, vecPosition As Vector2D)
-        Me._game = game
+    Private Dim gGame As frmFinalLab
+
+    Sub New(gGame As frmFinalLab, vecPosition As Vector2D)
+        Me.gGame = gGame
         Me.Position = vecPosition
 
-        Me.bmpSprite = Image.FromFile("Images/cball.jpg")
+        Me.bmpSprite = CType(Image.FromFile("Images/cball.jpg"), Bitmap)
+        Me.bmpSprite.MakeTransparent(GlobalVariables.AplhaColor)
     End Sub
 
     Public Overrides Sub Update()
-        Dim dblSpeed As Double = 3.5
-
         ' Continue flying
-        Position.Y -= dblSpeed
+        Position.Y -= dblSPEED
+        
+        ' Check if it hits the bolder
+        for each goGameObject as GameObject in gGame.GameObjects
+            If typeof goGameObject Is Bolder
+                If Collide(goGameObject)
+                    Dim bBolder as Bolder = CType(goGameObject, Bolder)
+                    
+                    ' Damage the bolder
+                    bBolder.Damage()
+
+                    ' Delete cannon ball
+                    Delete()
+                end if
+            End If
+        Next
+
+        ' Delete if off the map
+        if(Position.Y < 0)
+            Delete()
+        End If
     End Sub
 End Class

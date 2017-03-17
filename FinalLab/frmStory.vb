@@ -1,4 +1,7 @@
-﻿Public Class frmStory
+﻿Option Strict On
+Option Explicit On
+
+Public Class frmStory
     Private Sub btnOk_Click(sender As Object, e As EventArgs) Handles btnOk.Click
         me.Close()
     End Sub

@@ -1,14 +1,63 @@
 ﻿Public class IntSquare
-    Public X As Integer
-    Public Y As Integer
-    Public Height As Integer
-    Public Width As Integer
+    private dim intX As Integer
+    private dim intY As Integer
+    private dim intHeight As Integer
+    private dim intWidth As Integer
+    
+    Public Sub New()
+        Me.X = 0
+        Me.Y = 0
+        Me.Height = 0
+        Me.Width = 0
+    End Sub
+    Public Sub New(intX As Integer, intY As Integer, intHeight As Integer, intWidth As Integer)
+        Me.X = intX
+        Me.Y = intY
+        Me.Height = intHeight
+        Me.Width = intWidth
+    End Sub
+    Public Sub New(pntPosition As Point, pntSize As Point)
+        Me.Position = pntPosition
+        Me.Size = pntSize
+    End Sub
 
+    Public Property X As Integer
+        get
+            return intX
+        End Get
+        Set
+            intX = value
+        End Set
+    End Property
+    Public Property Y As Integer
+        get
+            return intY
+        End Get
+        Set
+            intY = value
+        End Set
+    End Property
+    Public Property Height As Integer
+        get
+            return intHeight
+        End Get
+        Set
+            intHeight = value
+        End Set
+    End Property
+    Public Property Width As Integer
+        get
+            return intWidth
+        End Get
+        Set
+            intWidth = value
+        End Set
+    End Property
     Public Property Position As Point
         Get
             Return New Point(X, Y)
         End Get
-        Set(value As Point)
+        Set
             X = value.X
             Y = value.Y
         End Set
@@ -17,28 +66,11 @@
         Get
             Return New Point(Height, Width)
         End Get
-        Set(value As Point)
+        Set
             Height = value.X
             Width = value.Y
         End Set
     End Property
-
-    Public Sub New()
-        Me.X = 0
-        Me.Y = 0
-        Me.Height = 0
-        Me.Width = 0
-    End Sub
-    Public Sub New(x As Integer, y As Integer, height As Integer, width As Integer)
-        Me.X = x
-        Me.Y = y
-        Me.Height = height
-        Me.Width = width
-    End Sub
-    Public Sub New(position As Point, size As Point)
-        Me.Position = position
-        Me.Size = size
-    End Sub
 
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me = obj
@@ -83,6 +115,6 @@
     End Operator
 
     Public Shared Widening Operator CType(square As FloatSquare) As IntSquare
-        Return New IntSquare(square.X, square.Y, square.Height, square.Width)
+        Return New IntSquare(CInt(square.X), CInt(square.Y), CInt(square.Height), CInt(square.Width))
     End Operator
 End class
